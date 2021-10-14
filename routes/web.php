@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::group(['namespace' => 'Web'], function () {
-    Auth::routes(['register'=>false, 'reset'=>false]);
+    Auth::routes(['register'=>true, 'reset'=>false]);
 
     Route::group(['middleware' => 'auth' ], function () {
         
