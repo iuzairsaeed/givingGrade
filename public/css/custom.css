@@ -1,0 +1,80 @@
+/* You can add global styles to this file, and also import other style files */
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #eee;
+    border-radius: 7px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    /* background: #667cde; */
+    background-image: linear-gradient(45deg, #04a87f, #018abe) !important;
+    border-radius: 15px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background-image: linear-gradient(45deg, #04a87f, #018abe) !important;
+    border-radius: 15px;
+}
+
+.main-logo {
+    width: 130px;
+}
+
+.icons a p {
+    display: none;
+}
+
+.icons a:hover p {
+    display: inline;
+}
+
+.ajax-loader {
+    background-color: rgba(255, 255, 255, 0.7);
+    position: fixed;
+    z-index: +100 !important;
+    width: 100%;
+    height: 100%;
+}
+
+.ajax-loader img {
+    position: relative;
+    top: 40%;
+    left: 45%;
+}
+.app-sidebar .navigation li.active a {
+    /* background-image: linear-gradient(45deg,#024342,#079f9df2) !important; */
+    background-repeat: repeat-x !important;
+    list-style: none !important;
+    color: grey !important;
+}
+
+.app-sidebar .navigation li.active a:before,
+.off-canvas-sidebar .navigation li.active a:before {
+    background-color: white;
+    border-color: white;
+}
+.app-sidebar .navigation > li.active > a i,
+.off-canvas-sidebar .navigation > li.active > a i {
+    color: grey !important;
+}
+
+.wrapper
+    .app-sidebar:not(:hover)[data-background-color="white"]
+    .navigation
+    li.active
+    a {
+    background-image: linear-gradient(
+45deg
+, #61906c, #61906c) !important;
+    background-repeat: repeat-x !important;
+    list-style: none !important;
+    color: #000000 !important;
+}
