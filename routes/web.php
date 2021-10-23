@@ -3,8 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+Route::any('/admin_dashboard',function(){
+    return view('admin.dashboard');
+}); 
+
 Route::group(['namespace' => 'Web'], function () {
     Auth::routes(['register'=>true, 'reset'=>false]);
+
+    Route::resource('/charities','CharityController'); 
+    Route::resource('/subjects','SubjectController'); 
+    Route::resource('/goals','GoalController'); 
+    Route::resource('/classrooms','ClassroomController'); 
 
     Route::group(['middleware' => 'auth' ], function () {
         
