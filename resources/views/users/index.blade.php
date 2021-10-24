@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <section id="dom">
@@ -6,25 +6,21 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title-wrap bar-success">
-                        <h4 class="card-title">Users</h4>
-                    </div>
-                    <p class="card-text">Here you can see the list of existing users.</p>
+                    <p class="mb-0">Your Users</p>
+                    <a href="{{route('users.create')}}" class="btn btn-create mb-0"><i class="icon-plus"></i> Create User</a>
                 </div>
-                <div class="card-body collapse show">
-                    <div class="card-block card-dashboard table-responsive">
-                        <table class="table table-striped table-bordered" id="dTable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Account</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+                <div class="card-body pt-3">
+                    <table class="table table-striped table-bordered" id="dTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Account</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>

@@ -39,7 +39,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware(['auth']);
+        $this->middleware(['auth']);
     }
 
     /**
@@ -53,7 +53,6 @@ class RegisterController extends Controller
 
         return Validator::make($data, [
             'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
-            'username' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:users'],
             'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['bail','required', 'string', 'min:6', 'confirmed'],
             'dob' => ['bail','required', 'date',],
@@ -73,7 +72,6 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'] ?? '',
-            'username' => $data['username'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'dob' => $data['dob'],

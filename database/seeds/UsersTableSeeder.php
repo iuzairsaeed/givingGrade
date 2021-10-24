@@ -16,25 +16,43 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $admin = User::create([
-            'name' => 'Uzair Saeed',
-            'username' => 'uzair',
-            'email' => 'uzair@gg.com',
-            'is_admin' => true,
+            'name' => 'Super Admin',
+            'email' => 'admin@admin.com',
             'password' => Hash::make('secret'),
+            'is_admin' => true,
             'created_at' => now()
         ]);
         $role = Role::Where('name', 'admin')->first();
         $admin->assignRole([$role->id]);
 
         $user = User::create([
-            'name' => 'Murtuza Mehdi',
-            'username' => 'murtuza',
-            'email' => 'murtuza@gg.com',
-            'is_admin' => false,
+            'name' => 'Test Teacher',
+            'email' => 'teacher@giving-grades.com',
             'password' => Hash::make('secret'),
+            'is_admin' => false,
             'created_at' => now()
         ]);
-        $roleN = Role::where('name', 'normal')->first();
+        $roleN = Role::where('name', 'teacher')->first();
         $user->assignRole([$roleN->id]);
+       
+        $corporate = User::create([
+            'name' => 'Test Corporate',
+            'email' => 'corporate@giving-grades.com',
+            'password' => Hash::make('secret'),
+            'is_admin' => false,
+            'created_at' => now()
+        ]);
+        $roleN = Role::where('name', 'corporate')->first();
+        $corporate->assignRole([$roleN->id]);
+        
+        $corporate = User::create([
+            'name' => 'Test Private',
+            'email' => 'private@giving-grades.com',
+            'password' => Hash::make('secret'),
+            'is_admin' => false,
+            'created_at' => now()
+        ]);
+        $roleN = Role::where('name', 'private')->first();
+        $corporate->assignRole([$roleN->id]);
     }
 }

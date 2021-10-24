@@ -12,9 +12,13 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\ModelStatus\HasStatuses;
 use App\Notifications\VerifyEmail;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
-    use SoftDeletes, HasApiTokens, Notifiable, HasRoles, HasStatuses;
+    use SoftDeletes,
+    HasApiTokens,
+    Notifiable,
+    HasRoles,
+    HasStatuses;
 
     protected $hidden = [
         'pin', 'biometric', 'updated_at', 'email_verified_at', 'password', 'remember_token', 'device_token', 'is_admin'

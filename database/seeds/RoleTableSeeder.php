@@ -21,16 +21,70 @@ class RoleTableSeeder extends Seeder
         $permissions = Permission::pluck('id','id')->all();
         $roleAdmin->syncPermissions($permissions);
         
-        // Role Normal
-        $roleNormal = Role::create(['name' => 'normal']);
-        $normalPermission = [  
-            'plan-getList',
-            'plan-list',
-            'plan-create',
-            'plan-edit',
-            'plan-delete',
+        // Role Teacher
+        $roleTeacher = Role::create(['name' => 'teacher']);
+        $teacherPermission = [  
+            'subject-getList',
+            'subject-list',
+            'subject-create',
+            'subject-edit',
+            'subject-delete',
+            'charity-getList',
+            'charity-list',
+            'charity-create',
+            'charity-edit',
+            'charity-delete',
+            'goal-getList',
+            'goal-list',
+            'goal-create',
+            'goal-edit',
+            'goal-delete',
         ];
-        $permissionsN = Permission::whereIn('name',$normalPermission)->pluck('id');
-        $roleNormal->syncPermissions($permissionsN);
+        $permissionsN = Permission::whereIn('name',$teacherPermission)->pluck('id');
+        $roleTeacher->syncPermissions($permissionsN);
+        
+        // Role Corporate
+        $roleCorporate = Role::create(['name' => 'corporate']);
+        $corporatePermission = [  
+            'subject-getList',
+            'subject-list',
+            'subject-create',
+            'subject-edit',
+            'subject-delete',
+            'charity-getList',
+            'charity-list',
+            'charity-create',
+            'charity-edit',
+            'charity-delete',
+            'goal-getList',
+            'goal-list',
+            'goal-create',
+            'goal-edit',
+            'goal-delete',
+        ];
+        $permissionsN = Permission::whereIn('name',$corporatePermission)->pluck('id');
+        $roleCorporate->syncPermissions($permissionsN);
+        
+        // Role Private
+        $rolePrivate = Role::create(['name' => 'private']);
+        $privatePermission = [  
+            'subject-getList',
+            'subject-list',
+            'subject-create',
+            'subject-edit',
+            'subject-delete',
+            'charity-getList',
+            'charity-list',
+            'charity-create',
+            'charity-edit',
+            'charity-delete',
+            'goal-getList',
+            'goal-list',
+            'goal-create',
+            'goal-edit',
+            'goal-delete',
+        ];
+        $permissionsN = Permission::whereIn('name',$privatePermission)->pluck('id');
+        $rolePrivate->syncPermissions($permissionsN);
     }
 }

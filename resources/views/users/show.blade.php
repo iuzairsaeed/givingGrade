@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @section('content')
 <section id="user-area">
     <a class="btn btn-primary" href="/users"><i class="fa fa-reply"></i> Go Back</a>
