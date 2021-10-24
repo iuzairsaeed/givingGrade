@@ -33,7 +33,7 @@
                 <div class="card">
                     <div class="card-header">
                         <p class="mb-0">Your Classrooms</p>
-                        <a href="{{route('classrooms.create')}}" class="btn btn-create mb-0"><i class="icon-plus"></i> Create Classrooms</a>
+                        <a href="{{route('classrooms.create')}}" class="btn btn-create mb-0 grey"><i class="ft-plus grey"></i> Create Classrooms</a>
                     </div>
                     <div class="card-body pt-3">
                         <table class="table table-striped table-bordered" id="dTable">

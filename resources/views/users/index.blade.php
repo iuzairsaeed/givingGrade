@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <p class="mb-0">Your Users</p>
-                    <a href="{{route('users.create')}}" class="btn btn-create mb-0"><i class="icon-plus"></i> Create User</a>
+                    <a href="{{route('users.create')}}" class="btn btn-create mb-0 grey"><i class="ft-plus grey"></i> Create User</a>
                 </div>
                 <div class="card-body pt-3">
                     <table class="table table-striped table-bordered" id="dTable">

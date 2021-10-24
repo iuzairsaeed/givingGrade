@@ -9,9 +9,6 @@
     <ul class="nav-header-lists">
       <li>Home</li>
       <li class="dropdown nav-item mr-0">
-        <a id="dropdownBasic4" href="#" data-toggle="dropdown" class="nav-link position-relative dropdown-user-link dropdown-toggle">
-          English
-        </a>
         <div aria-labelledby="dropdownBasic4" class="dropdown-menu dropdown-menu-right">
           <div class="arrow_box_right">
             <a href="{{ route('profile') }}" class="dropdown-item py-1"><i class="icon-user mr-2"></i><span>Kafeel</span></a>

@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <p class="mb-0">Your Roles</p>
-                    <a href="{{route('role.create')}}" class="btn btn-create mb-0"><i class="icon-plus"></i> Create Role</a>
+                    <a href="{{route('role.create')}}" class="btn btn-create mb-0 grey"><i class="ft-plus grey"></i> Create Role</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-bordered" id="dTable">
