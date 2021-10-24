@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-touch-fullscreen" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="icon" type="image/png" href="{{ asset('W.ico') }}" />
+<link rel="icon" type="image/png" href="{{ asset('app-assets/img/givinggradeslogo.png') }}" />
 
 <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
