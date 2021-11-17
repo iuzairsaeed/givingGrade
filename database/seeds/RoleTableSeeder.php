@@ -15,15 +15,15 @@ class RoleTableSeeder extends Seeder
     {
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-        
+
         // Role Admin
         $roleAdmin = Role::create(['name' => 'admin']);
         $permissions = Permission::pluck('id','id')->all();
         $roleAdmin->syncPermissions($permissions);
-        
+
         // Role Teacher
         $roleTeacher = Role::create(['name' => 'teacher']);
-        $teacherPermission = [  
+        $teacherPermission = [
             'subject-getList',
             'subject-list',
             'subject-create',
@@ -42,10 +42,10 @@ class RoleTableSeeder extends Seeder
         ];
         $permissionsN = Permission::whereIn('name',$teacherPermission)->pluck('id');
         $roleTeacher->syncPermissions($permissionsN);
-        
+
         // Role Corporate
         $roleCorporate = Role::create(['name' => 'corporate']);
-        $corporatePermission = [  
+        $corporatePermission = [
             'subject-getList',
             'subject-list',
             'subject-create',
@@ -64,10 +64,10 @@ class RoleTableSeeder extends Seeder
         ];
         $permissionsN = Permission::whereIn('name',$corporatePermission)->pluck('id');
         $roleCorporate->syncPermissions($permissionsN);
-        
+
         // Role Private
         $rolePrivate = Role::create(['name' => 'private']);
-        $privatePermission = [  
+        $privatePermission = [
             'subject-getList',
             'subject-list',
             'subject-create',
@@ -83,6 +83,7 @@ class RoleTableSeeder extends Seeder
             'goal-create',
             'goal-edit',
             'goal-delete',
+            'user-list',
         ];
         $permissionsN = Permission::whereIn('name',$privatePermission)->pluck('id');
         $rolePrivate->syncPermissions($permissionsN);

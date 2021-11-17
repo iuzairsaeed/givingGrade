@@ -5,19 +5,21 @@ use Illuminate\Support\Facades\Auth;
 
 Route::any('/admin_dashboard',function(){
     return view('admin.dashboard');
-}); 
+});
 
 Route::group(['namespace' => 'Web'], function () {
     Auth::routes(['register'=>true, 'reset'=>false]);
 
-    Route::resource('/charities','CharityController'); 
-    Route::resource('/subjects','SubjectController'); 
-    Route::resource('/goals','GoalController'); 
-    Route::resource('/classrooms','ClassroomController'); 
 
+    Route::post('registerUser','Auth\RegisterController@register')->name('registerUser');
+    Route::post('register\teacher','Auth\RegisterController@teacher')->name('register.teacher');
     Route::group(['middleware' => 'auth' ], function () {
-        
-        Route::post('registerUser','Auth\RegisterController@register')->name('registerUser');
+
+        Route::resource('/charities','CharityController');
+        Route::resource('/subjects','SubjectController');
+        Route::resource('/goals','GoalController');
+        Route::get('goals/list', 'GoalController@getList')->name('goals.getList');
+        Route::resource('/classrooms','ClassroomController');
         Route::resource('users','UserController');
         Route::get('usersList', 'UserController@getList')->name('users.getList');
         Route::get('users-dropdown-list', 'UserController@getUser')->name('users.get-user');
@@ -38,9 +40,9 @@ Route::group(['namespace' => 'Web'], function () {
         Route::resource('role','RoleController');
         Route::get('role-list', 'RoleController@getList')->name('role.get-list');
         Route::get('role-dropdown-list', 'RoleController@getRole')->name('role.get-role');
-        
+
     });
-   
+
 });
 
 Route::get('terms_conditions', 'Web\PageController@terms_conditions')->where('any', '.*');

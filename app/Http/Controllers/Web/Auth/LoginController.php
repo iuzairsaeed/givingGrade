@@ -38,7 +38,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    
+
 
     public function authenticated(Request $request, $user)
     {
@@ -46,10 +46,11 @@ class LoginController extends Controller
             auth()->logout();
             return redirect()->back()->with('error', 'Your account has been disabled. Please contact support.');
         }
-        if(!$user->is_admin){
-            auth()->logout();
-            return redirect()->back()->with('error', 'You have no access to this CMS.');
-        }
+        // if(!$user->is_admin){
+        //     auth()->logout();
+        //     return redirect()->back()->with('error', 'You have no access to this CMS.');
+        // }
+
         return redirect()->intended($this->redirectPath());
     }
 

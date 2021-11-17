@@ -22,10 +22,10 @@
     }
 </style>
 <div class="alert alert-info pt-1 pb-1 mb-0" role="alert">
-       
+
     This is a <strong>Global</strong> announcement that will show on both the frontend and backend. <em>See <strong>AnnouncementSeeder</strong> for more usage examples.</em>
 </div>
-<section class="py-5">
+{{-- <section class="py-5">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 pl-4 pt-5 pb-5 pr-4 bg-white ">
@@ -73,7 +73,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            
+
                         </table>
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -138,15 +138,15 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            
+
                         </table>
                     </div>
                   </div>
             </div>
         </div>
     </div>
-</section>
-    
+</section> --}}
+
 @endsection
 @section('afterScript')
     <script>

@@ -21,7 +21,7 @@
                 <li class="nav-item {{ $segment1 === 'admin_dashboard' ? 'active' : null }}"><a href="/admin_dashboard"><i class="icon-speedometer"></i><span data-i18n="" class="menu-title">Dashboard</span></a>
                 </li>
                 <li class="c-sidebar-nav-title">Giving Grades</li>
-                <li class="has-sub nav-item " ><a href="#"><i class="icon-user" ></i><span data-i18n="" class="menu-title">Your Data</span></a>
+                <li class="has-sub nav-item {{ in_array($segment1,['goals','charities','classrooms']) ? 'open' : null }}" ><a href="#"><i class="icon-user" ></i><span data-i18n="" class="menu-title">Your Data</span></a>
                     <ul class="menu-content" >
                         <li class="nav-item">
                             <a href="{{route('charities.index')}}"><span data-i18n="" class="menu-title">Charities</span></a>
@@ -29,7 +29,7 @@
                         <li class="nav-item">
                             <a href="{{route('subjects.index')}}"><span data-i18n="" class="menu-title">Subjects</span></a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" {{ $segment1 === 'goals' ? 'active' : null }}>
                             <a href="{{route('goals.index')}}"><span data-i18n="" class="menu-title">Goals</span></a>
                         </li>
                         <li class="nav-item">
@@ -46,7 +46,7 @@
                         <li class="nav-item">
                             <a href="{{route('role.index')}}"><span data-i18n="" class="menu-title">Role Management</span></a>
                         </li>
-                        
+
                     </ul>
                 </li>
                 <li class="has-sub nav-item " ><a href="#"><i class="icon-list" ></i><span data-i18n="" class="menu-title">Logs</span></a>
@@ -57,11 +57,11 @@
                         <li class="nav-item">
                             <a href="#"><span data-i18n="" class="menu-title">Logs</span></a>
                         </li>
-                        
+
                     </ul>
                 </li>
-                
-                
+
+
             </ul>
             {{-- Scroll Bar --}}
             <div class="ps-scrollbar-y-rail" style="top: 120px; height: 50px; right: 3px;">

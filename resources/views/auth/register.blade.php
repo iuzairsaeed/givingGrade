@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="card-body px-4">
-                <form class="form" method="POST" id="userForm" action="{{ route('users.store') }}" enctype="multipart/form-data">
+                <form class="form" method="POST" id="teahcerForm" action="{{ route('users.store') }}" enctype="multipart/form-data">
                 @csrf
                     <div class="row">
                         <div class="col-6">
@@ -56,7 +56,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="form-actions right">
@@ -72,7 +72,7 @@
         </div>
     </div>
 </div>
-    
+
 @endsection
 @section('afterScript')
 <script>
@@ -116,7 +116,7 @@
    }
    </style>
    <div class="alert alert-info pt-1 pb-1 mb-0" role="alert">
-       
+
        This is a <strong>Global</strong> announcement that will show on both the frontend and backend. <em>See <strong>AnnouncementSeeder</strong> for more usage examples.</em>
    </div>
    <div class="container-fluid">
@@ -140,55 +140,75 @@
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                            <form class="form" method="POST" id="userForm" action="{{ route('users.store') }}" enctype="multipart/form-data">
+                            <form method="POST" id="teahcerForm"  class="form"  action="{{ route('register.teacher') }}" enctype="multipart/form-data">
                                 @csrf
                                     <div class="form-group">
                                         <label class="label-control" for="vendor_no">Name </label>
                                         <div class="input-wrap  pl-3 pr-3 pt-1 pb-1 w-100">
                                             <i class="icon-user"></i>
-                                            <input type="text" id="name" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="name" placeholder="Name" required>
+                                            <input type="text" id="name" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="name" placeholder="Name" value="{{old('name')}}" required>
                                         </div>
                                     </div>
-                                
+
                                     <div class="form-group">
                                         <label class="label-control" for="vendor_no">Display Name </label>
                                         <div class="input-wrap pl-3 pr-3 pt-1 pb-1 w-100">
                                             <i class="icon-user"></i>
-                                            <input type="text" id="phone" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="username" placeholder="Display Name" required>
+                                            <input type="text" id="phone" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="username" placeholder="Display Name" value="{{old('username')}}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="label-control" for="vendor_no">Date Of Birth </label>
+                                        <div class="input-wrap  pl-3 pr-3 pt-1 pb-1 w-100">
+                                            <i class="icon-calendar"></i>
+                                            <input type="date" id="dob" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="dob" placeholder="Date of birth" value="{{old('dob')}}" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="label-control" for="vendor_no">Email address </label>
                                         <div class="input-wrap pl-3 pr-3 pt-1 pb-1 w-100">
                                             <i class="icon-envelope"></i>
-                                            <input type="email" id="email" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="email" placeholder="Email Address" required>
+                                            <input type="email" id="email" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="email" placeholder="Email Address" value="{{old('email')}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control" for="vendor_no">Gender</label>
+                                        <div class="input-wrap pl-3 pr-3 pt-1 pb-1 w-100">
+                                            <i class="icon-person"></i>
+                                            <select name="gender" id="gender" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" >
+                                                <option value="0" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" selected disabled>Select Gender</option>
+                                                <option value="male" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none">Male</option>
+                                                <option value="female" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" >Female</option>
+                                            </select>
+
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="label-control" for="vendor_no">Password </label>
                                         <div class="input-wrap pl-3 pr-3 pt-1 pb-1 w-100">
                                             <i class="icon-key"></i>
-                                            <input type="password" id="password" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="password" placeholder="Password" required>
+                                            <input type="password" id="password" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="password" placeholder="Password" value="{{old('password')}}" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="label-control" for="vendor_no">Confirm Password</label>
                                         <div class="input-wrap pl-3 pr-3 pt-1 pb-1 w-100">
                                             <i class="icon-key"></i>
-                                            <input type="password" id="con_pass" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="password_confirmation" placeholder="Confirm Password" required>
+                                            <input type="password" id="con_pass" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="password_confirmation" placeholder="Confirm Password" value="{{old('password')}}" required>
                                         </div>
                                     </div>
-                        
+
                                     <label class="checkbox-style">Accept Term and Conditions
-                                        <input type="checkbox" checked="checked"> <span class="checkmark"></span>
+                                        <input type="checkbox" checked="checked" name="terms" value="1"> <span class="checkmark"></span>
                                     </label>
                                     <div class="text-center mt-4">
-                                        <button class="bg-green text-white pt-2 pb-2 border-0 outline-none  w-100 btn-login" style="max-width: 366px;">Sign Up</button>
+                                        <button class="bg-green text-white pt-2 pb-2 border-0 outline-none  w-100 btn-login" type="submit" style="max-width: 366px;">Sign Up</button>
                                     </div>
                                 </form>
                         </div>
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                            <form class="form" method="POST" id="userForm" action="{{ route('users.store') }}" enctype="multipart/form-data">
+                            <form class="form" method="POST" id="teahcerForm" action="{{ route('users.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label class="label-control" for="vendor_no">Name </label>
@@ -197,7 +217,7 @@
                                         <input type="text" id="name" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="name" placeholder="Name" required>
                                     </div>
                                 </div>
-                            
+
                                 <div class="form-group">
                                     <label class="label-control" for="vendor_no">Email address </label>
                                     <div class="input-wrap pl-3 pr-3 pt-1 pb-1 w-100">
@@ -219,9 +239,9 @@
                                         <input type="password" id="con_pass" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="password_confirmation" placeholder="Confirm Password" required>
                                     </div>
                                 </div>
-                    
+
                                 <label class="checkbox-style">Accept Term and Conditions
-                                    <input type="checkbox" checked="checked"> <span class="checkmark"></span>
+                                    <input type="checkbox" checked="checked" value="1" name=""> <span class="checkmark"></span>
                                 </label>
                                 <div class="text-center mt-4">
                                     <button class="bg-green text-white pt-2 pb-2 border-0 outline-none  w-100 btn-login" style="max-width: 366px;">Sign Up</button>
@@ -229,7 +249,7 @@
                             </form>
                         </div>
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                            <form class="form" method="POST" id="userForm" action="{{ route('users.store') }}" enctype="multipart/form-data">
+                            <form class="form" method="POST" id="teahcerForm" action="{{ route('users.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label class="label-control" for="vendor_no">Name </label>
@@ -238,7 +258,7 @@
                                         <input type="text" id="name" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="name" placeholder="Name" required>
                                     </div>
                                 </div>
-                            
+
                                 <div class="form-group">
                                     <label class="label-control" for="vendor_no">Email address </label>
                                     <div class="input-wrap pl-3 pr-3 pt-1 pb-1 w-100">
@@ -260,7 +280,7 @@
                                         <input type="password" id="con_pass" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="password_confirmation" placeholder="Confirm Password" required>
                                     </div>
                                 </div>
-                    
+
                                 <label class="checkbox-style">Accept Term and Conditions
                                     <input type="checkbox" checked="checked"> <span class="checkmark"></span>
                                 </label>
@@ -279,15 +299,15 @@
                    </div>
                </div>
                <div class="p-md-5 p-1 mt-md-5 mt-0">
-                   <h1 class="text-black sign-up">Sign Up to <br> Giving <strong class="text-green">Grades</strong></h1> 
-                   <p class="fontsize14px text-gray ">If you have an Account You <br>you can 
+                   <h1 class="text-black sign-up">Sign Up to <br> Giving <strong class="text-green">Grades</strong></h1>
+                   <p class="fontsize14px text-gray ">If you have an Account You <br>you can
                    <a href="/login" class="text-white text-underline">
                        <ins class="text-green ">login here</ins></a></p>
                    </div>
            </div>
        </div>
    </div>
-    
+
 @endsection
 @section('afterScript')
 <script>
