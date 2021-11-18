@@ -37,7 +37,7 @@
         serverSide: true,
         ajax:
         {
-            url: '{{ route("charities.getList") }}',
+            url: '{{ route("classrooms.getList") }}',
             type: "POST",
             data:{ _token: "{{csrf_token()}}"},
             dataType: "JSON",

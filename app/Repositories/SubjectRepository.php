@@ -113,10 +113,15 @@ class SubjectRepository implements RepositoryInterface
         $dir = optional($order)[0]['dir'] ?? false;
         $from = $request->date_from;
         $to = $request->date_to;
-
-        $records = $this->model->whereHas('users',function($query) {
-            $query->where('user_id',auth()->user()->id);
-        })->withCount($withCount);
+        $records = collect();
+        if(auth()->user()->roles->first()->name !==  config('constant.role.admin')) {
+            $records = $this->model->whereHas('users',function($query) {
+                $query->where('user_id',auth()->user()->id);
+            })->withCount($withCount);
+        }
+        else {
+            $records = $this->model->withCount($withCount);
+        }
 
         if($whereChecks){
             foreach($whereChecks as $key => $check){

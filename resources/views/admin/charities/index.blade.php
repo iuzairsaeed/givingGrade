@@ -6,8 +6,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <p class="mb-0">Classroom</p>
-                    <a href="{{route('classrooms.create')}}" class="btn btn-create mb-0 grey"><i class="ft-plus grey"></i> Create Classroom</a>
+                    <p class="mb-0">Charity</p>
+                    <a href="{{route('charities.create')}}" class="btn btn-create mb-0 grey"><i class="ft-plus grey"></i> Create Charity</a>
                 </div>
                 <div class="card-body pt-3">
                     <table class="table table-striped table-bordered" id="dTable">

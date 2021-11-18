@@ -123,10 +123,11 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-actions left">
-                                            <button type="button" class="btn btn-danger mr-1">
-                                                <i class="icon-trash"></i> Delete User
-                                            </button>
-
+                                            @if(auth()->user()->roles->first()->name ! == config('constant.role.admin'))
+                                                <button type="button" class="btn btn-danger mr-1">
+                                                    <i class="icon-trash"></i> Delete User
+                                                </button>
+                                            @endif
                                             <button type="submit" id="submit" class="btn btn-raised btn-success">
                                                 <i class="icon-note"></i> Update Profile
                                             </button>
