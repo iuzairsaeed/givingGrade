@@ -17,8 +17,9 @@ Route::group(['namespace' => 'Web'], function () {
 
         Route::resource('/charities','CharityController');
         Route::resource('/subjects','SubjectController');
-        Route::resource('/goals','GoalController');
-        Route::get('goals/list', 'GoalController@getList')->name('goals.getList');
+        Route::resource('/goals','GoalController')->except('destroy');
+        Route::get('goals/{goal}/destroy', 'GoalController@destroy')->name('goals.delete');
+        Route::post('goals/list', 'GoalController@getList')->name('goals.getList');
         Route::resource('/classrooms','ClassroomController');
         Route::resource('users','UserController');
         Route::get('usersList', 'UserController@getList')->name('users.getList');

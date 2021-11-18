@@ -4,12 +4,23 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Auth\ChangePasswordRequest;
-use App\Http\Requests\Auth\ProfileUpdateRequest;
+use App\Http\Requests\Auth\{ChangePasswordRequest,ProfileUpdateRequest};
+use App\Http\Services\RouterService;
+use App\Models\User;
+use App\Repositories\UserRepository;
 use Hash;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
+    protected $model;
+
+    public function __construct(User $model)
+    {
+        $this->model = new UserRepository($model);
+        $this->router = 'auth.profile';
+        $this->routerService = new RouterService();
+    }
     public function showProfileForm()
     {
         $user = auth()->user();
@@ -18,17 +29,20 @@ class ProfileController extends Controller
 
     public function profile(ProfileUpdateRequest $request)
     {
-        $user = auth()->user();
-        $data = $request->all();
+        $data = $request->validated();
+        $message = 'Profile successfully updated.';
+        $error = false;
+        try {
+            $this->model->update($data,auth()->user);
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
 
-        // if($request->hasFile('avatar')){
-        //     $deleteFile = $user->getAttributes()['avatar'] != 'no-image.png' ? $user->avatar : null;
-        //     $file_name = uploadFile($request->avatar, avatarsPath(), $deleteFile);
-        //     $data['avatar'] = $file_name;
-        // }
-        $user->fill($data);
-        $user->update();
-        return redirect()->back()->with('success', 'Profile has been updated.');
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     public function showChangePasswordForm()

@@ -47,7 +47,15 @@ class UserRepository implements RepositoryInterface
     // update record in the database
     public function update(array $data, Model $model)
     {
-        return $model->update($data);
+
+        // 'name' => $data['name'] ?? '',
+        // 'username' => $data['username'] ?? '',
+        // 'email' => $data['email'],
+        // 'dob' => $data['dob'],
+        // 'gender' => $data['gender'],
+        // 'password' => Hash::make($data['password']),
+        // 'device_token' => $data['device_token'] ?? null,
+        // return $model->update($data);
     }
 
     // remove record from the database
@@ -147,7 +155,7 @@ class UserRepository implements RepositoryInterface
 
         $message = 'Success';
         $response = 200;
-       
+
         return [
             'message' => $message,
             'response' => $response,

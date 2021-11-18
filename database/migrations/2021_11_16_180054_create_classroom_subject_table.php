@@ -14,6 +14,7 @@ class CreateClassroomSubjectTable extends Migration
     public function up()
     {
         Schema::create('classroom_subject', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('classroom_id')->references('id')->on('classrooms');
             $table->foreignId('subject_id')->references('id')->on('subjects');
             $table->timestamps();

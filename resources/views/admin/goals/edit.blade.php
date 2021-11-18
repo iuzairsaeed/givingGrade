@@ -6,17 +6,18 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title-wrap bar-teal">
-                    <h4 class="card-title" id="horz-layout-colored-controls">Create Goal</h4>
+                    <h4 class="card-title" id="horz-layout-colored-controls">Edit Goal</h4>
                 </div>
             </div>
             <div class="card-body px-4">
-                <form class="form" action="{{route('goals.store')}}" method="POST" enctype="multipart/form-data">
+                <form class="form" id="goalForm" action="{{route('goals.update' ,$record->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Title </label>
-                                <input type="text" id="title" class="form-control border-primary  @error('title') is-invalid @enderror" name="title" placeholder="Enter Title">
+                                <input type="text" id="title" class="form-control border-primary  @error('title') is-invalid @enderror" value={{$record->title}} name="title" placeholder="Enter Title">
                             </div>
                             @if($errors->first('title'))
                                 <span class="invalid-feedback d-block" role="alert">
@@ -27,7 +28,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Description </label>
-                                <textarea type="text" id="description" class="form-control border-primary @error('description') is-invalid @enderror" name="description" placeholder="Enter Description"></textarea>
+                                <textarea type="text" id="description"  class="form-control border-primary @error('description') is-invalid @enderror" name="description" placeholder="Enter Description">{{$record->description}}</textarea>
                             </div>
                             @if($errors->first('description'))
                                 <span class="invalid-feedback d-block" role="alert">
@@ -38,7 +39,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Current Target </label>
-                                <input type="number" id="currentTarget" class="form-control border-primary @error('currentTarget') is-invalid @enderror" name="currentTarget" placeholder="Enter Current Target">
+                                <input type="number" id="currentTarget" value={{$record->current_target}} class="form-control border-primary @error('currentTarget') is-invalid @enderror" name="currentTarget" placeholder="Enter Current Target">
                             </div>
                             @if($errors->first('currentTarget'))
                                 <span class="invalid-feedback d-block" role="alert">
@@ -49,7 +50,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">No Of Student </label>
-                                <input type="number" id="student" class="form-control border-primary @error('student') is-invalid @enderror" name="student" placeholder="Enter No of Student">
+                                <input type="number" id="student" value={{$record->student_count}} class="form-control border-primary @error('student') is-invalid @enderror" name="student" placeholder="Enter No of Student">
                             </div>
                             @if($errors->first('student'))
                                 <span class="invalid-feedback d-block" role="alert">
@@ -60,7 +61,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Start Date </label>
-                                <input type="date" id="startDate" class="form-control border-primary @error('startDate') is-invalid @enderror" name="startDate" placeholder="Enter Start date">
+                                <input type="date" id="startDate" value={{$record->starting_date}} class="form-control border-primary @error('startDate') is-invalid @enderror" name="startDate" placeholder="Enter Start date">
                             </div>
                             @if($errors->first('startDate'))
                                 <span class="invalid-feedback d-block" role="alert">
@@ -72,7 +73,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">End Date </label>
-                                <input type="date" id="endDate" class="form-control border-primary @error('endDate') is-invalid @enderror" name="endDate" placeholder="Enter End date">
+                                <input type="date" id="endDate" value={{$record->ending_date}} class="form-control border-primary @error('endDate') is-invalid @enderror" name="endDate" placeholder="Enter End date">
                             </div>
                             @if($errors->first('endDate'))
                                 <span class="invalid-feedback d-block" role="alert">
@@ -85,8 +86,8 @@
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Status </label>
                                 <select name="status" id="status" class="form-control form-control-sm" required>
-                                    <option value="1">Active</option>
-                                    <option value="0" >In-Active</option>
+                                    <option value="1" {{$record->active == 1 ? 'selected' : ""}}>Active</option>
+                                    <option value="0" {{$record->active == 2 ? 'selected' : ""}}>In-Active</option>
                                 </select>
                             </div>
                             @if($errors->first('status'))
@@ -112,22 +113,27 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control">Image</label>
-                                <input type="file" name="image" id="image" value="{{old('user')}}" class="form-control border-primary" >
+                                <input type="file" name="image" id="image" class="form-control border-primary" >
+
                             </div>
                         </div>
+                        <input type="hidden" name="imageRemove" id="imageRemove" value=0>
+                        <div class="col-lg-4 col-md-6 col-sm-12" id="imageShow">
+                            <img src="{{ asset("storage/{$record->image}") }}" class="img-thumbnail cursor-pointer" style="width:30%; height:50%;">
+                            <button class="btn btn-danger" id="removeImage"> <i class="ft-trash font-sm-1 right"></i></button>
+                        </div>
+
                         @if($errors->first('image'))
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $errors->first('image') }}</strong>
                             </span>
                         @endif
                     </div>
-
-
                     <div class="form-actions right">
-                        <a href="{{route('dashboard')}}">
-                            <button type="button" class="btn btn-danger mr-1">
-                                <i class="icon-trash"></i> Cancel
-                            </button>
+                    <a href="{{route('dashboard')}}">
+                        <button type="button" class="btn btn-danger mr-1">
+                            <i class="icon-trash"></i> Cancel
+                        </button>
                         </a>
                         <button type="submit" class="btn btn-success">
                             <i class="icon-note"></i> Save
@@ -142,6 +148,8 @@
 @endsection
 @section('afterScript')
 <script>
+
+
     $('#user').select2({
         placeholder: "Search User",
         allowClear: true,
@@ -161,6 +169,13 @@
             },
             cache: true
         }
+
+    });
+
+    $('#removeImage').click(function(){
+        $('#imageRemove').val(1);
+        $('#imageShow').remove();
+
     });
 </script>
 @endsection

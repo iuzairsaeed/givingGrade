@@ -15,14 +15,17 @@ class CreateGoalsTable extends Migration
     {
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
+            $table->integer('charity_id');
+            $table->integer('user_id');
             $table->string('title');
             $table->longText('image')->nullable();;
             $table->string('description')->nullable();
             $table->decimal('actual_target', 8, 2);
             $table->decimal('current_target', 8, 2);
-            $table->dateTimeTz('starting_date', 0);
-            $table->dateTimeTz('ending_date', 0);
+            $table->timestamp('starting_date');
+            $table->timestamp('ending_date');
             $table->boolean('active');
+            $table->decimal('student_count');
             $table->timestamps();
             $table->softDeletes();
         });

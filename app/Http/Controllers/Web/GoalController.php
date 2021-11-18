@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GoalRequest;
+use App\Http\Services\RouterService;
 use App\Models\Goal;
 use App\Repositories\GoalRepository;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\{DB,Log};
 
 class GoalController extends Controller
 {
@@ -13,11 +17,9 @@ class GoalController extends Controller
 
     public function __construct(Goal $model)
     {
-        // $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','show','getList']]);
-        // $this->middleware('permission:user-create', ['only' => ['create','store']]);
-        // $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-        // $this->middleware('permission:user-delete', ['only' => ['destroy']]);
         $this->model = new GoalRepository($model);
+        $this->router = 'goals.index';
+        $this->routerService = new RouterService();
     }
     /**
      * Display a listing of the resource.
@@ -30,24 +32,28 @@ class GoalController extends Controller
     }
 
     public function getList(Request $request) {
+        try {
+            $orderableCols = ['created_at', 'charity_id', 'title', 'image', 'description', 'actual_target','current_target','starting_date','ending_date','active','student_count'];
+            $searchableCols = ['title'];
+            $whereChecks = [];
+            $whereOps = [];
+            $whereVals = [];
+            $with = [];
+            $withCount = [];
 
-        $orderableCols = ['created_at', 'user_id', 'title', 'image', 'description', 'actual_target','current_target','starting_date','ending_date','active'];
-        $searchableCols = ['title'];
-        $whereChecks = [];
-        $whereOps = [];
-        $whereVals = [];
-        $with = [];
-        $withCount = [];
+            $data = $this->model->getData($request, $with, $withCount, $whereChecks, $whereOps, $whereVals, $searchableCols, $orderableCols);
 
-        $data = $this->model->getData($request, $with, $withCount, $whereChecks, $whereOps, $whereVals, $searchableCols, $orderableCols);
+            $serial = ($request->start ?? 0) + 1;
+            collect($data['data'])->map(function ($item) use (&$serial) {
+                $item['serial'] = $serial++;
+                return $item;
+            });
+            return response($data, 200);
+        }
+        catch(Exception $e) {
+            Log::error($e);
+        }
 
-        $serial = ($request->start ?? 0) + 1;
-        collect($data['data'])->map(function ($item) use (&$serial) {
-            $item['serial'] = $serial++;
-            return $item;
-        });
-
-        return response($data, 200);
     }
 
     /**
@@ -66,9 +72,23 @@ class GoalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GoalRequest $request)
     {
-        //
+        $data = $request->validated();
+        $message = 'Record successfully created.';
+        $error = false;
+        try {
+            $this->model->create($data);
+        } catch (\Exception $e) {
+            dd($e);
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     /**
@@ -79,7 +99,8 @@ class GoalController extends Controller
      */
     public function show($id)
     {
-        //
+        $record = $this->model->show($id);
+        return view('admin.goals.show', compact('record'));
     }
 
     /**
@@ -90,7 +111,8 @@ class GoalController extends Controller
      */
     public function edit($id)
     {
-        //
+        $record = $this->model->show($id);
+        return view('admin.goals.edit', compact('record'));
     }
 
     /**
@@ -100,9 +122,24 @@ class GoalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GoalRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+        $message = 'Record successfully updated.';
+        $error = false;
+        try {
+            $record = $this->model->show($id);
+            $this->model->update($data,$record);
+        } catch (\Exception $e) {
+            dd($e);
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     /**
@@ -113,6 +150,17 @@ class GoalController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $error = false;
+        try {
+            $message = 'Record successfully deleted';
+            $record = $this->model->show($id);
+            $this->model->delete($record);
+        }
+        catch (Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+        return $this->routerService->redirectBack($error, $message);
     }
 }

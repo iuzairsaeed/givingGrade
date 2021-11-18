@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\MatchOldPassword;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProfileUpdateRequest extends FormRequest
@@ -24,10 +26,17 @@ class ProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'address' => ['bail', 'required', 'string', 'max:255', 'min:3'],
-            'street' => ['bail', 'required', 'string', 'max:225', 'min:3'],
-            'city' => ['bail', 'required', 'string', 'max:50', 'min:3'],
-            'zipcode' => ['bail', 'required', 'string', 'max:50', 'min:3'],
+            'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
+            'email' => ['bail', 'required', 'string', 'email', 'max:255','unique:users,email,'.auth()->user()->id],
+            'oldPassword' => ['bail','required', new MatchOldPassword],
+            'password' => ['bail','required', 'string', 'min:6', 'confirmed','different:oldPassword'],
+            'dob' => ['bail','required', 'date','before:'.Carbon::Now()],
+            'students' => ['bail','required'],
+            'grade' => ['bail','required'],
+            'subjects.*' => ['bail','required'],
+            'school' => ['bail','required'],
+            'imageRemove' => 'nullable',
+            'avatar' => 'required_if:imageRemove,1|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

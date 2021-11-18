@@ -15,8 +15,7 @@ class HeadersMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $response = $next($request);
-        // $response->header('X-Frame-Options', 'deny');
-        return $response;
+        // $response = $next($request);
+        return  $next($request);;
     }
 }

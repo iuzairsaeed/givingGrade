@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Charity;
 use Illuminate\Http\Request;
 
 class CharityController extends Controller
@@ -16,7 +17,7 @@ class CharityController extends Controller
     {
         return view('admin.charities.index');
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -72,6 +73,18 @@ class CharityController extends Controller
         //
     }
 
+    public function getCharity(Request $request)
+    {
+        $search = trim($request->search);
+
+        $users = Charity::where('name','Like',"%".$search."%")->get();
+        $formatted_depts = [];
+        foreach ($users as $user) {
+            $formatted_depts[] = ['id' => $user->id, 'text' => $user->name];
+        }
+
+        return \Response::json($formatted_depts);
+    }
     /**
      * Remove the specified resource from storage.
      *

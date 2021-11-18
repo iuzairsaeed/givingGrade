@@ -26,12 +26,25 @@ class GoalRepository implements RepositoryInterface
     // create a new record in the database
     public function create(array $data)
     {
-        $this->model->name = $data['name'];
-        $this->model->username = $data['username'];
-        $this->model->email = $data['email'];
-        $this->model->password = bcrypt($data['password']);
-        $this->model->phone = $data['phone'];
-        $this->model->save();
+        extract($data);
+        $record = $this->model;
+        $record->title = $title;
+        $record->description = $description;
+        $record->actual_target = 100;
+        $record->starting_date = $startDate;
+        $record->ending_date = $endDate;
+        $record->student_count = $student;
+        $record->active = $status;
+        $record->charity_id = $charity;
+        $record->user_id = auth()->user()->id;
+        $record->save();
+        $file = $image;
+        $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $filePath = "users/".$record->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
+        $store = Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
+        $record->image = $filePath;
+        $record->update();
+        return $record;
         // $id = $this->model->id;
         // $userUpdate = $this->model->find($id);
         // Storage::disk('user_profile')->deleteDirectory('users/' .$id);
@@ -41,25 +54,48 @@ class GoalRepository implements RepositoryInterface
         // $store = Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
         // $userUpdate->avatar = $filePath;
         // $userUpdate->update();
-        return $this->model;
+        // return $record;
     }
 
     // update record in the database
     public function update(array $data, Model $model)
     {
-        return $model->update($data);
+        extract($data);
+        $model->title = $title;
+        $model->description = $description;
+        $model->actual_target = 100;
+        $model->current_target = 100;
+        $model->starting_date = $startDate;
+        $model->ending_date = $endDate;
+        $model->active = $status;
+        $model->student_count = $student;
+        $model->charity_id = $charity;
+        $model->user_id = auth()->user()->id;
+        $model->save();
+        if($imageRemove == 1) {
+            $file = $image;
+            Storage::disk('user_profile')->deleteDirectory('users/' .$model->id);
+            $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $filePath = "users/".$model->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
+            Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
+            $model->image = $filePath;
+            $model->update();
+        }
+
+        return $model;
     }
 
     // remove record from the database
     public function delete(Model $model)
     {
+        Storage::disk('user_profile')->deleteDirectory('users/' .$model->id);
         return $model->delete();
     }
 
     // show the record with the given id
-    public function show($id)
+    public function show($id,$relations= [])
     {
-        return $this->model->findOrFail($id);
+        return $this->model->with($relations)->findOrFail($id);
     }
 
     // Get the associated model
@@ -93,6 +129,7 @@ class GoalRepository implements RepositoryInterface
     // Get data for datatable
     public function getData($request, $with, $withCount, $whereChecks, $whereOps, $whereVals, $searchableCols, $orderableCols)
     {
+
         $start = $request->start ?? 0;
         $length = $request->length ?? 10;
         $filter = $request->search;
@@ -102,36 +139,32 @@ class GoalRepository implements RepositoryInterface
         $dir = optional($order)[0]['dir'] ?? false;
         $from = $request->date_from;
         $to = $request->date_to;
-        // $orWhereVal = $request->repcode ? $request->repcode : null;
 
-        $records = $this->model->with($with)->withCount($withCount);
+        $records = $this->model->where('user_id',auth()->user()->id)->with($with)->withCount($withCount);
 
         if($whereChecks){
             foreach($whereChecks as $key => $check){
                 $records->where($check, $whereOps[$key] ?? '=', $whereVals[$key]);
             }
         }
-        // if($orWhereVal){
-        //     $records->orWhere('repcode', $orWhereVal);
-        // }
 
-        $recordsTotal = $records->count();
+        $recordsTotal = $records->where('user_id',auth()->user()->id)->count();
 
         if($from){
-            $records->whereDate('created_at' ,'>=', $from);
+            $records->where('user_id',auth()->user()->id)->whereDate('created_at' ,'>=', $from);
         }
         if($to){
-            $records->whereDate('created_at' ,'<=', $to);
+            $records->where('user_id',auth()->user()->id)->whereDate('created_at' ,'<=', $to);
         }
 
         if($search){
-            $records->where(function($query) use ($searchableCols, $search){
+            $records->where('user_id',auth()->user()->id)->where(function($query) use ($searchableCols, $search){
                 foreach($searchableCols as $col){
                     $query->orWhere($col, 'like' , "%$search%");
                 }
             });
         }
-        $recordsFiltered = $records->count();
+        $recordsFiltered = $records->where('user_id',auth()->user()->id)->count();
 
         if($dir){
             if(in_array($sort, $orderableCols)){
