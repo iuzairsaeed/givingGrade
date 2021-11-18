@@ -57,6 +57,20 @@ class UserController extends Controller
         return \Response::json($formatted_depts);
     }
 
+    public function getTeacher(Request $request)
+    {
+        $search = trim($request->search);
+
+        $users = User::whereHas('roles',function($query) {
+            $query->where('id',2);
+        })->where('name','Like',"%".$search."%")->get();
+        $formatted_depts = [];
+        foreach ($users as $user) {
+            $formatted_depts[] = ['id' => $user->id, 'text' => $user->name];
+        }
+
+        return \Response::json($formatted_depts);
+    }
     /**
      * Display a listing of the resource.
      *

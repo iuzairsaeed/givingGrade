@@ -1,83 +1,121 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<style>
-    .alert-info{
-        position: absolute;
-        left: 240px;
-        right: 0;
-    }
-    body{
-        background-color: #EBEDEF;
-    }
-    .nav-pills .nav-link{
-        color: #321fdb !important;
-    }
-    .nav-pills .nav-link.active, .nav-pills .show>.nav-link{
-        color: #768192 !important;
-        background-color: #ebedef !important;
-        /* border-color: #c4c9d0 #c4c9d0 #ebedef; */
-        border-top-left-radius: 0.25rem;
-        border-top-right-radius: 0.25rem;
-    }
-    .form-group input.form-control:focus {
-        border-color: #000  !important;
-    }
-</style>
-<div class="alert alert-info pt-1 pb-1 mb-0" role="alert">
-       
-    This is a <strong>Global</strong> announcement that will show on both the frontend and backend. <em>See <strong>AnnouncementSeeder</strong> for more usage examples.</em>
-</div>
-<section class="py-5">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <p class="mb-0">Create Classroom</p>
-                        <a href="{{route('classrooms.index')}}" class="btn btn-create mb-0"> Cancel</a>
-                    </div>
-                    <div class="card-body p-3">
-                        <form  method="post" action="{{route('classrooms.store')}}">
-                            <div class="form-group row">
-                                <label for="user" class="col-md-2 col-form-label">User</label>
-                                <div class="col-md-10"><select name="user" id="user" class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                </select></div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="title" class="col-md-2 col-form-label">Title</label>
-                                <div class="col-md-10"><input type="text" name="title" placeholder="Title" value="" maxlength="100" required="required" class="form-control" /></div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="description" class="col-md-2 col-form-label">Description</label>
-                                <div class="col-md-10"><textarea name="description" id="description" placeholder="Description" maxlength="255" required="required" class="form-control"></textarea></div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="image" class="col-md-2 col-form-label">Image</label>
-                                <div class="col-md-10" charity-image="">
-                                    <input type="file" accept="image/*" />
-                                    <div id="preview" class="col-md-6">
-                                        <textarea name="image" id="image" class="form-control" style="display: none;"></textarea>
-                                        <!---->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="active" class="col-md-2 col-form-label">Active</label>
-                                <div class="col-md-10"><input type="checkbox" class="checkbox" value="0" /> <input type="hidden" name="active" value="0" /> <span class="checkmark"></span></div>
-                            </div>
-                        </form>
-                        
-                    </div>
-                    <div class="card-footer text-right">
-                        <button class="btn btn-primary">Create Classroom</button>
-                    </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-teal">
+                    <h4 class="card-title" id="horz-layout-colored-controls">Create Classroom</h4>
                 </div>
+            </div>
+            <div class="card-body px-4">
+                <form class="form" action="{{route('classrooms.store')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control" for="vendor_no">Title </label>
+                                <input type="text" id="title" class="form-control border-primary  @error('title') is-invalid @enderror" name="title" placeholder="Enter Title">
+                            </div>
+                            @if($errors->first('title'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('title') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control" for="vendor_no">Description </label>
+                                <textarea type="text" id="description" class="form-control border-primary @error('description') is-invalid @enderror" name="description" placeholder="Enter Description"></textarea>
+                            </div>
+                            @if($errors->first('description'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('description') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control">Select Teacher</label>
+                                <select name="teacher" id="user" value="{{old('user')}}" class="form-control border-primary" >
+                                </select>
+                            </div>
+                            @if($errors->first('teacher'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('teacher') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control" for="vendor_no">Status </label>
+                                <select name="status" id="status" class="form-control form-control-sm" required>
+                                    <option value="1">Active</option>
+                                    <option value="0" >In-Active</option>
+                                </select>
+                            </div>
+                            @if($errors->first('status'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('status') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control">Image</label>
+                                <input type="file" name="image" id="image" value="{{old('user')}}" class="form-control border-primary" >
+                            </div>
+                        </div>
+                        @if($errors->first('image'))
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $errors->first('image') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+
+                    <div class="form-actions right">
+                        <a href="{{route('subjects.index')}}">
+                            <button type="button" class="btn btn-danger mr-1">
+                                <i class="icon-back"></i> Cancel
+                            </button>
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="icon-note"></i> Save
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</section>
-    
+</div>
+
+@endsection
+@section('afterScript')
+<script>
+    $('#user').select2({
+        placeholder: "Search Teacher",
+        allowClear: true,
+        ajax: {
+            url: "{{ route('users.get-teacher') }}",
+            type: "GET",
+            dataType: 'json',
+            data: function (params) {
+                return {
+                    search: params.term
+                };
+            },
+            processResults: function (response) {
+                return {
+                    results: response
+                };
+            },
+            cache: true
+        }
+    });
+</script>
 @endsection

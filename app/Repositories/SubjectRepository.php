@@ -2,12 +2,9 @@
 
 namespace App\Repositories;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Database\Eloquent\Model;
-use DB;
-use Illuminate\Support\Facades\Hash;
 
-class UserRepository implements RepositoryInterface
+class SubjectRepository implements RepositoryInterface
 {
     // model property on class instances
     protected $model;
@@ -27,56 +24,50 @@ class UserRepository implements RepositoryInterface
     // create a new record in the database
     public function create(array $data)
     {
-        $this->model->name = $data['name'];
-        $this->model->username = $data['username'];
-        $this->model->email = $data['email'];
-        $this->model->password = bcrypt($data['password']);
-        $this->model->phone = $data['phone'];
-        $this->model->save();
-        // $id = $this->model->id;
-        // $userUpdate = $this->model->find($id);
-        // Storage::disk('user_profile')->deleteDirectory('users/' .$id);
-        // $file = $data['avatar'];
-        // $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        // $filePath = "users/".$id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
-        // $store = Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
-        // $userUpdate->avatar = $filePath;
-        // $userUpdate->update();
-        return $this->model;
+        extract($data);
+        $record = $this->model;
+        $record->title = $title;
+        $record->description = $description;
+        $record->active = $status;
+        $record->save();
+        $file = $image;
+        $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $filePath = "subjects/".$record->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
+        $store = Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
+        $record->image = $filePath;
+        $record->update();
+        return $record;
     }
 
     // update record in the database
     public function update(array $data, Model $model)
     {
         extract($data);
-        $model->name = $name;
-        $model->email = $email;
-        $model->password = Hash::make($password);
-        $model->dob = $dob;
-        $model->students = $students;
-        $model->grade_level = $grade;
-        $model->school = $school;
-        if($imageRemove ==1) {
-            $file = $avatar;
-            Storage::disk('user_profile')->deleteDirectory('users/' .$model->id);
-            $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $filePath = "users/".$model->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
-            $store = Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
-            $model->avatar = $filePath;
-        }
+        $model->title = $title;
+        $model->description = $description;
+        $model->active = $status;
         $model->save();
-        $model->subjects()->sync($subjects);
+        if($imageRemove == 1) {
+            $file = $image;
+            Storage::disk('user_profile')->deleteDirectory('goals/' .$model->id);
+            $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $filePath = "subjects/".$model->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
+            Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
+            $model->image = $filePath;
+            $model->update();
+        }
         return $model;
     }
 
     // remove record from the database
     public function delete(Model $model)
     {
+        Storage::disk('user_profile')->deleteDirectory('subjects/' .$model->id);
         return $model->delete();
     }
 
     // show the record with the given id
-    public function show($id,$relations = [])
+    public function show($id,$relations= [])
     {
         return $this->model->with($relations)->findOrFail($id);
     }
@@ -112,6 +103,7 @@ class UserRepository implements RepositoryInterface
     // Get data for datatable
     public function getData($request, $with, $withCount, $whereChecks, $whereOps, $whereVals, $searchableCols, $orderableCols)
     {
+
         $start = $request->start ?? 0;
         $length = $request->length ?? 10;
         $filter = $request->search;
@@ -121,18 +113,14 @@ class UserRepository implements RepositoryInterface
         $dir = optional($order)[0]['dir'] ?? false;
         $from = $request->date_from;
         $to = $request->date_to;
-        // $orWhereVal = $request->repcode ? $request->repcode : null;
 
-        $records = $this->model->with($with)->withCount($withCount);
+        $records = $this->model->withCount($withCount);
 
         if($whereChecks){
             foreach($whereChecks as $key => $check){
                 $records->where($check, $whereOps[$key] ?? '=', $whereVals[$key]);
             }
         }
-        // if($orWhereVal){
-        //     $records->orWhere('repcode', $orWhereVal);
-        // }
 
         $recordsTotal = $records->count();
 

@@ -18,12 +18,12 @@ class ProfileController extends Controller
     public function __construct(User $model)
     {
         $this->model = new UserRepository($model);
-        $this->router = 'auth.profile';
+        $this->router = 'profile';
         $this->routerService = new RouterService();
     }
     public function showProfileForm()
     {
-        $user = auth()->user();
+        $user = $this->model->show(auth()->user()->id,['subjects:id']);
         return view('auth.profile', compact('user'));
     }
 
@@ -33,7 +33,8 @@ class ProfileController extends Controller
         $message = 'Profile successfully updated.';
         $error = false;
         try {
-            $this->model->update($data,auth()->user);
+            $user = $this->model->show(auth()->user()->id);
+            $this->model->update($data,$user);
         } catch (\Exception $e) {
             $error = true;
             $message = $e->getMessage();

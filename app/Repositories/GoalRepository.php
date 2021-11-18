@@ -40,7 +40,7 @@ class GoalRepository implements RepositoryInterface
         $record->save();
         $file = $image;
         $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $filePath = "users/".$record->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
+        $filePath = "goals/".$record->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
         $store = Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
         $record->image = $filePath;
         $record->update();
@@ -74,9 +74,9 @@ class GoalRepository implements RepositoryInterface
         $model->save();
         if($imageRemove == 1) {
             $file = $image;
-            Storage::disk('user_profile')->deleteDirectory('users/' .$model->id);
+            Storage::disk('user_profile')->deleteDirectory('goals/' .$model->id);
             $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $filePath = "users/".$model->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
+            $filePath = "goals/".$model->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
             Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
             $model->image = $filePath;
             $model->update();

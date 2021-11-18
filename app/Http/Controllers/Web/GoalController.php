@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GoalRequest;
 use App\Http\Services\RouterService;
 use App\Models\Goal;
+use App\Models\User;
 use App\Repositories\GoalRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class GoalController extends Controller
      */
     public function index()
     {
+        // dd(auth()->user()->avatar);
         return view('admin.goals.index');
     }
 
@@ -131,7 +133,6 @@ class GoalController extends Controller
             $record = $this->model->show($id);
             $this->model->update($data,$record);
         } catch (\Exception $e) {
-            dd($e);
             $error = true;
             $message = $e->getMessage();
             Log::error($e);

@@ -232,7 +232,7 @@
         color: rgba(255, 255, 255, 0.6);
     }
     .navbar .navbar-toggle:focus{
-        outline: none;  
+        outline: none;
     }
     .navbar .navbar-container{
         position: absolute;

@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title-wrap bar-teal">
-                    <h4 class="card-title" id="horz-layout-colored-controls">Edit Goal</h4>
+                    <h4 class="card-title" id="horz-layout-colored-controls">Goal</h4>
                 </div>
             </div>
             <div class="card-body px-4">

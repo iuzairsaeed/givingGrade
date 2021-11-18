@@ -3,10 +3,25 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SubjectRequest;
+use App\Http\Services\RouterService;
+use App\Models\Subject;
+use App\Repositories\SubjectRepository;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SubjectController extends Controller
 {
+
+    protected $model;
+
+    public function __construct(Subject $model)
+    {
+        $this->model = new SubjectRepository($model);
+        $this->router = 'subjects.index';
+        $this->routerService = new RouterService();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +31,29 @@ class SubjectController extends Controller
     {
         return view('admin.subjects.index');
     }
-    
+
+    public function getList(Request $request) {
+        try {
+            $orderableCols = ['created_at',  'title', 'description', 'active'];
+            $searchableCols = ['title'];
+            $whereChecks = [];
+            $whereOps = [];
+            $whereVals = [];
+            $with = [];
+            $withCount = [];
+            $data = $this->model->getData($request, $with, $withCount, $whereChecks, $whereOps, $whereVals, $searchableCols, $orderableCols);
+            $serial = ($request->start ?? 0) + 1;
+            collect($data['data'])->map(function ($item) use (&$serial) {
+                $item['serial'] = $serial++;
+                return $item;
+            });
+            return response($data, 200);
+        }
+        catch(Exception $e) {
+            Log::error($e);
+        }
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -33,11 +70,37 @@ class SubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SubjectRequest $request)
     {
-        //
+        $data = $request->validated();
+        $message = 'Record successfully created.';
+        $error = false;
+        try {
+            $this->model->create($data);
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
+
+    public function getSubject(Request $request)
+    {
+        $search = trim($request->search);
+
+        $subjects = Subject::where('title','Like',"%".$search."%")->get();
+        $formatted_depts = [];
+        foreach ($subjects as $subject) {
+            $formatted_depts[] = ['id' => $subject->id, 'text' => $subject->title];
+        }
+
+        return \Response::json($formatted_depts);
+    }
     /**
      * Display the specified resource.
      *
@@ -46,7 +109,8 @@ class SubjectController extends Controller
      */
     public function show($id)
     {
-        //
+        $record = $this->model->show($id);
+        return view('admin.subjects.show', compact('record'));
     }
 
     /**
@@ -57,7 +121,8 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $record = $this->model->show($id);
+        return view('admin.subjects.edit', compact('record'));
     }
 
     /**
@@ -67,9 +132,23 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SubjectRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+        $message = 'Record successfully updated.';
+        $error = false;
+        try {
+            $record = $this->model->show($id);
+            $this->model->update($data,$record);
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     /**
@@ -80,6 +159,17 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $error = false;
+        try {
+            $message = 'Record successfully deleted';
+            $record = $this->model->show($id);
+            $this->model->delete($record);
+        }
+        catch (Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+        return $this->routerService->redirectBack($error, $message);
     }
 }

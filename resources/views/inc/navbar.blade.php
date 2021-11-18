@@ -13,13 +13,13 @@
           <li class="dropdown nav-item mr-0">
             <a id="dropdownBasic3" href="#" data-toggle="dropdown" class="nav-link position-relative dropdown-user-link dropdown-toggle">
               <span class="avatar avatar-online  width-100">
-                <img id="navbar-avatar" src="{{ asset('favicon.ico') }}" alt="avatar" />
+                <img id="navbar-avatar" src="{{ asset(auth()->user()->avatar ? auth()->user()->avatar : "app-assets/img/gravatar.png") }}" alt="avatar" />
               </span>
             </a>
             <div aria-labelledby="dropdownBasic3" class="dropdown-menu dropdown-menu-right">
               <div class="arrow_box_right">
                 <a href="{{ route('profile') }}" class="dropdown-item py-1"><i class="icon-user mr-2"></i><span>{{$user->name}}</span></a>
-                <a href="{{ route('changePassword') }}" class="dropdown-item py-1"><i class="ft-lock mr-2"></i><span>Change Password</span></a>
+                {{-- <a href="{{ route('changePassword') }}" class="dropdown-item py-1"><i class="ft-lock mr-2"></i><span>Change Password</span></a> --}}
                 <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="ft-power mr-2"></i><span>Logout</span></a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf

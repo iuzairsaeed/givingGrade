@@ -6,11 +6,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title-wrap bar-teal">
-                    <h4 class="card-title" id="horz-layout-colored-controls">Edit Goal</h4>
+                    <h4 class="card-title" id="horz-layout-colored-controls">Edit Subject</h4>
                 </div>
             </div>
             <div class="card-body px-4">
-                <form class="form" id="goalForm" action="{{route('goals.update' ,$record->id)}}" method="POST" enctype="multipart/form-data">
+                <form class="form" id="goalForm" action="{{route('subjects.update' ,$record->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -38,50 +38,16 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="label-control" for="vendor_no">Current Target </label>
-                                <input type="number" id="currentTarget" value={{$record->current_target}} class="form-control border-primary @error('currentTarget') is-invalid @enderror" name="currentTarget" placeholder="Enter Current Target">
+                                <label class="label-control">Select Teacher</label>
+                                <select name="teacher" id="user" value="{{old('user')}}" class="form-control border-primary" >
+                                </select>
                             </div>
-                            @if($errors->first('currentTarget'))
+                            @if($errors->first('teacher'))
                                 <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('currentTarget') }}</strong>
+                                    <strong>{{ $errors->first('teacher') }}</strong>
                                 </span>
                             @endif
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="label-control" for="vendor_no">No Of Student </label>
-                                <input type="number" id="student" value={{$record->student_count}} class="form-control border-primary @error('student') is-invalid @enderror" name="student" placeholder="Enter No of Student">
-                            </div>
-                            @if($errors->first('student'))
-                                <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('student') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="label-control" for="vendor_no">Start Date </label>
-                                <input type="date" id="startDate" value={{$record->starting_date}} class="form-control border-primary @error('startDate') is-invalid @enderror" name="startDate" placeholder="Enter Start date">
-                            </div>
-                            @if($errors->first('startDate'))
-                                <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('startDate') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="label-control" for="vendor_no">End Date </label>
-                                <input type="date" id="endDate" value={{$record->ending_date}} class="form-control border-primary @error('endDate') is-invalid @enderror" name="endDate" placeholder="Enter End date">
-                            </div>
-                            @if($errors->first('endDate'))
-                                <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('endDate') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Status </label>
@@ -96,20 +62,6 @@
                                 </span>
                             @endif
                         </div>
-
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="label-control">Select Charity</label>
-                                <select name="charity" id="user" value="{{old('user')}}" class="form-control border-primary" >
-                                </select>
-                            </div>
-                            @if($errors->first('charity'))
-                                <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('charity') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-
                         <div class="col-6" id="goalImage" style="display: none">
                             <div class="form-group">
                                 <label class="label-control">Image</label>
@@ -131,9 +83,9 @@
                         </div>
                     </div>
                     <div class="form-actions right">
-                    <a href="{{route('dashboard')}}">
+                    <a href="{{route('subjects.index')}}">
                         <button type="button" class="btn btn-danger mr-1">
-                            <i class="icon-trash"></i> Cancel
+                            <i class="icon-back"></i> Cancel
                         </button>
                         </a>
                         <button type="submit" class="btn btn-success">
@@ -149,13 +101,13 @@
 @endsection
 @section('afterScript')
 <script>
-
+    @section('afterScript')
 
     $('#user').select2({
-        placeholder: "Search User",
+        placeholder: "Search Teacher",
         allowClear: true,
         ajax: {
-            url: "{{ route('users.get-user') }}",
+            url: "{{ route('users.get-teacher') }}",
             type: "GET",
             dataType: 'json',
             data: function (params) {
@@ -170,7 +122,6 @@
             },
             cache: true
         }
-
     });
 
     $('#removeImage').click(function(){

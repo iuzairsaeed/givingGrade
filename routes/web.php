@@ -16,14 +16,26 @@ Route::group(['namespace' => 'Web'], function () {
     Route::group(['middleware' => 'auth' ], function () {
 
         Route::resource('/charities','CharityController');
-        Route::resource('/subjects','SubjectController');
+
+        Route::resource('/subjects','SubjectController')->except('destroy');
+        Route::post('subjects/list', 'SubjectController@getList')->name('subjects.getList');
+        Route::get('subjects/{subject}/destroy', 'SubjectController@destroy')->name('subjects.delete');
+        Route::get('subjects-dropdown-list', 'SubjectController@getSubject')->name('subjects.get-subject');
+
         Route::resource('/goals','GoalController')->except('destroy');
         Route::get('goals/{goal}/destroy', 'GoalController@destroy')->name('goals.delete');
         Route::post('goals/list', 'GoalController@getList')->name('goals.getList');
-        Route::resource('/classrooms','ClassroomController');
+
+        Route::resource('/classrooms','ClassroomController')->except('destroy');
+        Route::get('classrooms/{classroom}/destroy', 'ClassroomController@destroy')->name('classrooms.delete');
+        Route::post('classrooms/list', 'ClassroomController@getList')->name('classrooms.getList');
+
         Route::resource('users','UserController');
         Route::get('usersList', 'UserController@getList')->name('users.getList');
+
         Route::get('users-dropdown-list', 'UserController@getUser')->name('users.get-user');
+        Route::get('teachers-dropdown-list', 'UserController@getTeacher')->name('users.get-teacher');
+
 
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('dashboard/list', 'DashboardController@getList')->name('dashboard.getList');

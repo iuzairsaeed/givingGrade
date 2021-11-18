@@ -33,7 +33,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input id="email" name="email" class="form-control border-primary" type="email" value="{{ $user->email }}" required>
+                                            <input id="email" name="email" class="form-control border-primary" type="email" value="{{old('email', $user->email)}}" required>
                                         </div>
                                         @if($errors->first('email'))
                                             <span class="invalid-feedback d-block" role="alert">
@@ -45,7 +45,7 @@
                                         <div class="form-group">
                                             <label class="label-control" for="vendor_no">Date Of Birth </label>
 
-                                                <input type="date" id="dob" class="form-control border-primary" name="dob" placeholder="Date of birth" value="{{ $user->dob}}" required>
+                                                <input type="date" id="dob" class="form-control border-primary" name="dob" placeholder="Date of birth" value="{{old('dob', $user->dob)}}" required>
                                         </div>
                                     </div>
                                     @if($errors->first('email'))
@@ -56,7 +56,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">Old Password</label>
-                                            <input id="password" name="oldPassword" class="form-control border-primary"  placeholder="Old Password" type="password" value="" required>
+                                            <input id="password" name="oldPassword" class="form-control border-primary"  placeholder="Old Password" type="password" value="{{old('oldPassword')}}" >
                                         </div>
                                         @if($errors->first('password'))
                                             <span class="invalid-feedback d-block" role="alert">
@@ -67,7 +67,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">Password</label>
-                                            <input id="password" name="password" class="form-control border-primary"  placeholder="Password" type="password" value="" required>
+                                            <input id="password" name="password" class="form-control border-primary"  placeholder="Password" type="password" value="{{old('password')}}" >
                                         </div>
                                         @if($errors->first('password'))
                                             <span class="invalid-feedback d-block" role="alert">
@@ -79,7 +79,7 @@
                                         <div class="form-group">
                                             <label class="label-control" for="vendor_no">Confirm Password</label>
 
-                                            <input type="password" id="con_pass" class="form-control border-primary" name="password_confirmation" placeholder="Confirm Password" required>
+                                            <input type="password" id="con_pass" class="form-control border-primary" name="password_confirmation" placeholder="Confirm Password" value="{{old('password_confirmation')}}" >
                                         </div>
                                         @if($errors->first('password_confirmation'))
                                             <span class="invalid-feedback d-block" role="alert">
@@ -90,7 +90,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">School</label>
-                                            <input id="school" name="school" class="form-control border-primary" type="text" value="{{ $user->school }}">
+                                            <input id="school" name="school" class="form-control border-primary" type="text" value="{{old('school', $user->school)}}">
                                         </div>
                                         @if($errors->first('school'))
                                             <span class="invalid-feedback d-block" role="alert">
@@ -102,7 +102,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">Grade Level</label>
-                                            <input id="grade" name="grade" class="form-control border-primary" type="text" value="{{ $user->grade_level }}">
+                                            <input id="grade" name="grade" class="form-control border-primary" type="text" value="{{old('grade', $user->grade_level)}}">
                                         </div>
                                         @if($errors->first('grade'))
                                         <span class="invalid-feedback d-block" role="alert">
@@ -113,7 +113,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">No Of Students</label>
-                                            <input id="students" name="students" class="form-control border-primary" type="number" value="{{ $user->students }}">
+                                            <input id="students" name="students" class="form-control border-primary" type="number" value="{{old('students', $user->students)}}">
                                         </div>
                                         @if($errors->first('students'))
                                             <span class="invalid-feedback d-block" role="alert">
@@ -134,7 +134,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="userAvatar"    style="display: none">
                                         <div class="form-group">
                                             <label class="label-control">Avatar</label>
                                             <input type="file" name="avatar" id="avatar" class="form-control border-primary">
@@ -148,9 +148,12 @@
                                     </div>
                                     <input type="hidden" name="imageRemove" id="imageRemove" value="{{$user->avatar !== 'storage/avatars/no-image.png' ? 0 : 1}}">
                                     @if($user->avatar !== 'storage/avatars/no-image.png')
+
                                         <div class="col-lg-4 col-md-6 col-sm-12" id="imageShow">
-                                            <img src="{{ asset("storage/{$user->avatar}") }}" class="img-thumbnail cursor-pointer" style="width:30%; height:50%;">
-                                            <button class="btn btn-danger" id="removeImage"> <i class="ft-trash font-sm-1 right"></i></button>
+
+                                                <img src="{{ asset("storage/{$user->avatar}") }}" class="img-thumbnail cursor-pointer" style="width:50%; height:50%;">
+                                                <button class="btn btn-danger" id="removeImage"> <i class="ft-trash font-sm-1 right"></i></button>
+
                                         </div>
                                     @endif
                                 </div>
@@ -161,9 +164,15 @@
                                             <button type="button" class="btn btn-danger mr-1">
                                                 <i class="icon-trash"></i> Delete User
                                             </button>
+
                                             <button type="submit" id="submit" class="btn btn-raised btn-success">
                                                 <i class="icon-note"></i> Update Profile
                                             </button>
+                                            <a href="{{route('dashboard.index')}}">
+                                                <button type="button" class="btn btn-secondary mr-1">
+                                                    <i class="icon-back"></i> Cancel
+                                                </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -178,13 +187,19 @@
 @endsection
 @section('afterScript')
 <script>
+    let record = JSON.parse(`{!! $user !!}`)
+    let subjectIds = [];
+    $.map( record.subjects, function( val, i ) {
+        subjectIds.push(val.id);
+    });
+    console.log(subjectIds)
 
 
     $('#user').select2({
         placeholder: "Search Subjects",
         allowClear: true,
         ajax: {
-            url: "{{ route('users.get-user') }}",
+            url: "{{ route('subjects.get-subject') }}",
             type: "GET",
             dataType: 'json',
             data: function (params) {
@@ -201,10 +216,12 @@
         }
 
     });
+    $('#user').val(subjectIds);
 
     $('#removeImage').click(function(){
         $('#imageRemove').val(1);
         $('#imageShow').remove();
+        $("#userAvatar").show();
 
     });
 </script>

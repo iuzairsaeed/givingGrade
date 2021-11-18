@@ -65,11 +65,12 @@ class User extends Authenticatable
         return $this->status()->name;
     }
 
-    public function getAvatarAttribute($value)
-    {
-        $path = avatarsPath();
-        return ($value) ? file_exists($path.$value) ? $path.$value: $path.'no-image.png' : $path.'no-image.png';
-    }
+    // public function getAvatarAttribute($value)
+    // {
+    //     $path = avatarsPath();
+    //     dd($value);
+    //     return ($value) ? file_exists($path.$value) ? $path.$value: $path.'no-image.png' : $path.'no-image.png';
+    // }
 
     public function sendApiEmailVerificationNotification()
     {
@@ -87,4 +88,8 @@ class User extends Authenticatable
         return $this->device_token;
     }
 
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class,'subject_teacher')->withTimestamps();
+    }
 }
