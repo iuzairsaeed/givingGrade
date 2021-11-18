@@ -51,7 +51,6 @@ class UserRepository implements RepositoryInterface
         extract($data);
         $model->name = $name;
         $model->email = $email;
-        $model->password = Hash::make($password);
         $model->dob = $dob;
         $model->students = $students;
         $model->grade_level = $grade;

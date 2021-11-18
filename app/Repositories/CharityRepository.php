@@ -4,7 +4,7 @@ namespace App\Repositories;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 
-class ClassroomRepository implements RepositoryInterface
+class CharityRepository implements RepositoryInterface
 {
     // model property on class instances
     protected $model;
@@ -118,7 +118,7 @@ class ClassroomRepository implements RepositoryInterface
         $from = $request->date_from;
         $to = $request->date_to;
 
-        $records = $this->model->with('teacher')->where('user_id',auth()->user()->id)->withCount($withCount);
+        $records = $this->model->with('teacher:id,name')->withCount($withCount);
 
         if($whereChecks){
             foreach($whereChecks as $key => $check){

@@ -92,4 +92,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Subject::class,'subject_teacher')->withTimestamps();
     }
+
+    public function classroom()
+    {
+        return $this->HasOne(Classroom::class,'user_id');
+    }
 }

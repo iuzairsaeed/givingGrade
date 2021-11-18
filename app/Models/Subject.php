@@ -10,4 +10,9 @@ class Subject extends Model
     {
         return $this->belongsToMany(User::class,'subject_teacher')->withTimestamps();
     }
+
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class,'classroom_subject')->withTimestamps();
+    }
 }

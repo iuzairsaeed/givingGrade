@@ -8,7 +8,7 @@ use App\Http\Requests\Auth\{ChangePasswordRequest,ProfileUpdateRequest};
 use App\Http\Services\RouterService;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
@@ -53,10 +53,18 @@ class ProfileController extends Controller
 
     public function changePassword(ChangePasswordRequest $request)
     {
-        $user = auth()->user();
-        $user->password = Hash::make($request->password);
-        $user->update();
-
-        return redirect()->back()->with('success', 'Password has been updated.');
+        $data = $request->validated();
+        $message = 'Password Has Been updated.';
+        $error = false;
+        try {
+            $user = $this->model->show(auth()->user()->id);
+            $user->password = Hash::make($request->password);
+            $user->update();
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+        return $this->routerService->redirectBack($error, $message);
     }
 }

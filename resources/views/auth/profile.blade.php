@@ -14,10 +14,6 @@
                         <form action="{{route('profile')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-body">
-                                @foreach ($errors->all() as $error)
-                                    <p class="text-danger">{{ $error }}</p>
-                                @endforeach
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -53,40 +49,6 @@
                                             <strong>{{ $errors->first('email') }}</strong>
                                         </span>
                                     @endif
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="email">Old Password</label>
-                                            <input id="password" name="oldPassword" class="form-control border-primary"  placeholder="Old Password" type="password" value="{{old('oldPassword')}}" >
-                                        </div>
-                                        @if($errors->first('password'))
-                                            <span class="invalid-feedback d-block" role="alert">
-                                                <strong>{{ $errors->first('password') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="email">Password</label>
-                                            <input id="password" name="password" class="form-control border-primary"  placeholder="Password" type="password" value="{{old('password')}}" >
-                                        </div>
-                                        @if($errors->first('password'))
-                                            <span class="invalid-feedback d-block" role="alert">
-                                                <strong>{{ $errors->first('password') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="label-control" for="vendor_no">Confirm Password</label>
-
-                                            <input type="password" id="con_pass" class="form-control border-primary" name="password_confirmation" placeholder="Confirm Password" value="{{old('password_confirmation')}}" >
-                                        </div>
-                                        @if($errors->first('password_confirmation'))
-                                            <span class="invalid-feedback d-block" role="alert">
-                                                <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">School</label>
@@ -146,7 +108,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <input type="hidden" name="imageRemove" id="imageRemove" value="{{$user->avatar !== 'storage/avatars/no-image.png' ? 0 : 1}}">
+                                    <input type="hidden" name="imageRemove" id="imageRemove" value="0">
                                     @if($user->avatar !== 'storage/avatars/no-image.png')
 
                                         <div class="col-lg-4 col-md-6 col-sm-12" id="imageShow">
@@ -168,7 +130,7 @@
                                             <button type="submit" id="submit" class="btn btn-raised btn-success">
                                                 <i class="icon-note"></i> Update Profile
                                             </button>
-                                            <a href="{{route('dashboard.index')}}">
+                                            <a href="{{route('dashboard')}}">
                                                 <button type="button" class="btn btn-secondary mr-1">
                                                     <i class="icon-back"></i> Cancel
                                                 </button>

@@ -37,7 +37,7 @@
         serverSide: true,
         ajax:
         {
-            url: '{{ route("classrooms.getList") }}',
+            url: '{{ route("charities.getList") }}',
             type: "POST",
             data:{ _token: "{{csrf_token()}}"},
             dataType: "JSON",
@@ -49,20 +49,20 @@
             { data: 'serial'},
             { data: 'title' },
             { data: 'description' },
-            { data: 'teacher' },
+            { data: 'teacher.name' },
             { data: 'active', render:function (data, type, full, meta) {
                                 return full.active   ? `<i class="fa fa-dot-circle-o success font-medium-1 mr-1"></i> Active`
                                                         : `<i class="fa fa-dot-circle-o danger font-medium-1 mr-1"></i> InActive`;  }
             },
             { data: 'created_at' },
             { data: 'actions', render:function (data, type, full, meta) {
-                                return `<a href="/subjects/${full.id}" class="showStatus primary p-0 mr-2 success" title="View">
+                                return `<a href="/classrooms/${full.id}" class="showStatus primary p-0 mr-2 success" title="View">
                                             <i class="ft-eye font-medium-3"></i>
                                         </a>
-                                        <a  href="/subjects/${full.id}/edit"  class="showStatus info p-0 mr-2 success" title="View">
+                                        <a  href="/classrooms/${full.id}/edit"  class="showStatus info p-0 mr-2 success" title="View">
                                             <i class="ft-edit font-medium-3"></i>
                                         </a>
-                                        <a href="/subjects/${full.id}/destroy"  class="showStatus danger p-0 mr-2 success" title="View">
+                                        <a href="/classrooms/${full.id}/destroy"  class="showStatus danger p-0 mr-2 success" title="View">
                                             <i class="ft-trash font-medium-3"></i>
                                         </a>`; }
             }

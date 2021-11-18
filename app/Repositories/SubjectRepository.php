@@ -114,7 +114,9 @@ class SubjectRepository implements RepositoryInterface
         $from = $request->date_from;
         $to = $request->date_to;
 
-        $records = $this->model->withCount($withCount);
+        $records = $this->model->whereHas('users',function($query) {
+            $query->where('user_id',auth()->user()->id);
+        })->withCount($withCount);
 
         if($whereChecks){
             foreach($whereChecks as $key => $check){

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubjectRequest extends FormRequest
+class ClassroomRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,6 +29,8 @@ class SubjectRequest extends FormRequest
                     'title' => 'required',
                     'description' => 'required',
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'teacher' => 'required|exists:users,id',
+                    'subjects.*' => 'required|exists:subjects,id',
                     'status'    =>  'required'
                 ];
                 break;
@@ -36,6 +38,8 @@ class SubjectRequest extends FormRequest
                 return [
                     'title' => 'required',
                     'description' => 'required',
+                    'teacher' => 'required|exists:users,id',
+                    'subjects.*' => 'required|exists:subjects,id',
                     'imageRemove' => 'nullable',
                     'image' => 'required_if:imageRemove,1|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'status'    =>  'required'

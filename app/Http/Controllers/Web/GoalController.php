@@ -18,6 +18,10 @@ class GoalController extends Controller
 
     public function __construct(Goal $model)
     {
+        $this->middleware('permission:goal-list|goal-create|goal-edit|goal-delete', ['only' => ['index','show','getList']]);
+        $this->middleware('permission:goal-create', ['only' => ['create','store']]);
+        $this->middleware('permission:goal-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:goal-delete', ['only' => ['destroy']]);
         $this->model = new GoalRepository($model);
         $this->router = 'goals.index';
         $this->routerService = new RouterService();

@@ -25,8 +25,8 @@ class UserController extends Controller
 
     public function getList(Request $request)
     {
-        $orderableCols = ['created_at', 'name', 'username', 'email', 'is_premium', 'is_active'];
-        $searchableCols = ['name', 'username', 'email'];
+        $orderableCols = ['created_at', 'name', 'email','dob','students','school','gender','grade_level','is_active'];
+        $searchableCols = ['name', 'email'];
         $whereChecks = ['id'];
         $whereOps = ['<>'];
         $whereVals = [auth()->id()];
@@ -63,7 +63,7 @@ class UserController extends Controller
 
         $users = User::whereHas('roles',function($query) {
             $query->where('id',2);
-        })->where('name','Like',"%".$search."%")->get();
+        })->where('name','Like',"%".$search."%")->where('is_active',1)->get();
         $formatted_depts = [];
         foreach ($users as $user) {
             $formatted_depts[] = ['id' => $user->id, 'text' => $user->name];
@@ -78,7 +78,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        return view('admin.users.index');
     }
 
     /**
@@ -88,7 +88,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        // return view('users.create');
+        return view('admin.users.create');
     }
 
     /**

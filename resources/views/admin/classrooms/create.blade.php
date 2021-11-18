@@ -51,6 +51,19 @@
 
                         <div class="col-6">
                             <div class="form-group">
+                                <label class="label-control">Select Subjects</label>
+                                <select name="subjects[]" id="subjects" value="{{old('user')}}" class="form-control border-primary" multiple>
+                                </select>
+                            </div>
+                            @if($errors->first('subjects'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('subjects') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label class="label-control" for="vendor_no">Status </label>
                                 <select name="status" id="status" class="form-control form-control-sm" required>
                                     <option value="1">Active</option>
@@ -79,7 +92,7 @@
 
 
                     <div class="form-actions right">
-                        <a href="{{route('subjects.index')}}">
+                        <a href="{{route('classrooms.index')}}">
                             <button type="button" class="btn btn-danger mr-1">
                                 <i class="icon-back"></i> Cancel
                             </button>
@@ -102,6 +115,27 @@
         allowClear: true,
         ajax: {
             url: "{{ route('users.get-teacher') }}",
+            type: "GET",
+            dataType: 'json',
+            data: function (params) {
+                return {
+                    search: params.term
+                };
+            },
+            processResults: function (response) {
+                return {
+                    results: response
+                };
+            },
+            cache: true
+        }
+    });
+
+    $('#subjects').select2({
+        placeholder: "Search Subject",
+        allowClear: true,
+        ajax: {
+            url: "{{ route('subjects.get-subject') }}",
             type: "GET",
             dataType: 'json',
             data: function (params) {

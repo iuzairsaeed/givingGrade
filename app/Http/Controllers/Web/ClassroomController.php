@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ClassroomRequest;
 use App\Http\Services\RouterService;
 use App\Models\Classroom;
 use App\Repositories\ClassroomRepository;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ClassroomController extends Controller
 {
@@ -14,8 +17,12 @@ class ClassroomController extends Controller
 
     public function __construct(Classroom $model)
     {
+        // $this->middleware('permission:classroom-list|classroom-create|classroom-edit|classroom-delete', ['only' => ['index','show','getList']]);
+        // $this->middleware('permission:classroom-create', ['only' => ['create','store']]);
+        // $this->middleware('permission:classroom-edit', ['only' => ['edit','update']]);
+        // $this->middleware('permission:classroom-delete', ['only' => ['destroy']]);
         $this->model = new ClassroomRepository($model);
-        $this->router = 'subjects.index';
+        $this->router = 'classrooms.index';
         $this->routerService = new RouterService();
     }
     /**
@@ -29,6 +36,34 @@ class ClassroomController extends Controller
     }
 
     public function getList(Request $request) {
+        try {
+            $orderableCols = ['created_at',  'title', 'description', 'active','name'];
+            $searchableCols = ['title'];
+            $whereChecks = [];
+            $whereOps = [];
+            $whereVals = [];
+            $with = [];
+            $withCount = [];
+            $data = $this->model->getData($request, $with, $withCount, $whereChecks, $whereOps, $whereVals, $searchableCols, $orderableCols);
+            $serial = ($request->start ?? 0) + 1;
+            collect($data['data'])->map(function ($item) use (&$serial) {
+                $item['serial'] = $serial++;
+                return $item;
+            });
+            return response($data, 200);
+        }
+        catch(Exception $e) {
+            Log::error($e);
+        }
+
+    }
+
+    public function teacherClassroom()
+    {
+        return view('admin.teacher_classrooms.index');
+    }
+
+    public function getTeacherClassroomList(Request $request) {
         try {
             $orderableCols = ['created_at',  'title', 'description', 'active','name'];
             $searchableCols = ['title'];
@@ -66,9 +101,24 @@ class ClassroomController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClassroomRequest $request)
     {
-        //
+        $data = $request->validated();
+        $message = 'Record successfully created.';
+        $error = false;
+        try {
+
+            $this->model->create($data);
+        } catch (\Exception $e) {
+
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     /**
@@ -79,7 +129,8 @@ class ClassroomController extends Controller
      */
     public function show($id)
     {
-        //
+        $record = $this->model->show($id);
+        return view('admin.classrooms.show', compact('record'));
     }
 
     /**
@@ -90,7 +141,8 @@ class ClassroomController extends Controller
      */
     public function edit($id)
     {
-        //
+        $record = $this->model->show($id);
+        return view('admin.classrooms.edit', compact('record'));
     }
 
     /**
@@ -100,9 +152,23 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClassroomRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+        $message = 'Record successfully updated.';
+        $error = false;
+        try {
+            $record = $this->model->show($id);
+            $this->model->update($data,$record);
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     /**

@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title-wrap bar-teal">
-                    <h4 class="card-title" id="horz-layout-colored-controls">Classrooms</h4>
+                    <h4 class="card-title" id="horz-layout-colored-controls">Subject</h4>
                 </div>
             </div>
             <div class="card-body px-4">
@@ -38,23 +38,6 @@
                             </div>
 
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="label-control" for="vendor_no">Teacher </label>
-                                <input type="text" class="form-control border-primary" value ={{$record->teacher->name}} readonly>
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="label-control" for="vendor_no">Subjects </label>
-                                @foreach ($record->subjects as $subject )
-
-                                <input type="text" class="form-control border-primary" value ={{$subject->title}} readonly>
-                                @endforeach
-                            </div>
-
-                        </div>
 
 
                         <div class="col-lg-4 col-md-6 col-sm-12" id="imageShow">
@@ -63,7 +46,7 @@
                         </div>
                     </div>
                     <div class="form-actions right">
-                    <a href="{{route('classrooms.index')}}">
+                    <a href="{{route('subjects.index')}}">
                         <button type="button" class="btn btn-danger mr-1">
                              Back
                         </button>

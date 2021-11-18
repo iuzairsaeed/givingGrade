@@ -28,8 +28,6 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
             'email' => ['bail', 'required', 'string', 'email', 'max:255','unique:users,email,'.auth()->user()->id],
-            'oldPassword' => ['bail', new MatchOldPassword],
-            'password' => ['bail','nullable', 'min:6', 'confirmed','different:oldPassword'],
             'dob' => ['bail','required', 'date','before:'.Carbon::Now()],
             'students' => ['bail','required'],
             'grade' => ['bail','required'],

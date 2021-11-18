@@ -15,12 +15,16 @@ Route::group(['namespace' => 'Web'], function () {
     Route::post('register\teacher','Auth\RegisterController@teacher')->name('register.teacher');
     Route::group(['middleware' => 'auth' ], function () {
 
-        Route::resource('/charities','CharityController');
+        Route::resource('/charities','CharityController')->except('destroy');
+        Route::get('charities/{classroom}/destroy', 'CharityController@destroy')->name('charities.delete');
+        Route::post('charities/list', 'CharityController@getList')->name('charities.getList');
 
         Route::resource('/subjects','SubjectController')->except('destroy');
         Route::post('subjects/list', 'SubjectController@getList')->name('subjects.getList');
         Route::get('subjects/{subject}/destroy', 'SubjectController@destroy')->name('subjects.delete');
         Route::get('subjects-dropdown-list', 'SubjectController@getSubject')->name('subjects.get-subject');
+        Route::post('subjects/teacher/list', 'SubjectController@getTeacherSubjectList')->name('subjects .teacher.getList');
+        Route::get('subjects-teacher', 'SubjectController@teacherSubjects')->name('subjects.teacher.index');
 
         Route::resource('/goals','GoalController')->except('destroy');
         Route::get('goals/{goal}/destroy', 'GoalController@destroy')->name('goals.delete');
@@ -29,6 +33,9 @@ Route::group(['namespace' => 'Web'], function () {
         Route::resource('/classrooms','ClassroomController')->except('destroy');
         Route::get('classrooms/{classroom}/destroy', 'ClassroomController@destroy')->name('classrooms.delete');
         Route::post('classrooms/list', 'ClassroomController@getList')->name('classrooms.getList');
+        Route::post('classrooms/teacher/list', 'ClassroomController@getTeacherClassroomList')->name('classrooms.teacher.getList');
+
+        Route::get('classrooms-teacher', 'ClassroomController@teacherClassroom')->name('classrooms.teacher.index');
 
         Route::resource('users','UserController');
         Route::get('usersList', 'UserController@getList')->name('users.getList');

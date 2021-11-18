@@ -7,10 +7,10 @@ return [
          * Should be Administrator by design and unable to change from the backend
          * It is not recommended to change
          */
-        'admin' => 'Administrator',
-        'teacher' => 'Teacher',
-        'corporate' => 'Corporate',
-        'private' => 'Private'
+        'admin' => 'admin',
+        'teacher' => 'teacher',
+        'corporate' => 'corporate',
+        'private' => 'private'
     ]
 ];
 

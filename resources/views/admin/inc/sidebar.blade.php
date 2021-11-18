@@ -22,21 +22,36 @@
                 </li>
                 <li class="c-sidebar-nav-title">Giving Grades</li>
                 <ul class="menu-content" >
+
+                    @if(auth()->user()->roles->first()->name == config('constant.role.teacher'))
+                    <li class="nav-item" {{ $segment1 === 'goals' ? 'active' : null }}>
+                        <a href="{{route('goals.index')}}"><span data-i18n="" class="menu-title">Goals</span></a>
+                    </li>
+                    <li class="nav-item" >
+                        <a href="{{route('classrooms.teacher.index')}}"><span data-i18n="" class="menu-title">Classrooms</span></a>
+                    </li>
+                    <li class="nav-item" >
+                        <a href="{{route('subjects.teacher.index')}}"><span data-i18n="" class="menu-title">Subjects</span></a>
+                    </li>
+                    @endif
+                    @if(auth()->user()->roles->first()->name == config('constant.role.admin'))
+                    <li class="nav-item">
+                        <a href="{{route('users.index')}}"><span data-i18n="" class="menu-title">Users</span></a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{route('charities.index')}}"><span data-i18n="" class="menu-title">Charities</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="{{route('subjects.index')}}"><span data-i18n="" class="menu-title">Subjects</span></a>
                     </li>
-                    <li class="nav-item" {{ $segment1 === 'goals' ? 'active' : null }}>
-                        <a href="{{route('goals.index')}}"><span data-i18n="" class="menu-title">Goals</span></a>
-                    </li>
+
                     <li class="nav-item">
                         <a href="{{route('classrooms.index')}}"><span data-i18n="" class="menu-title">Classrooms</span></a>
                     </li>
+                   @endif
                 </ul>
 
-                @if(auth()->user()->roles->first() == config('role.admin'))
+                @if(auth()->user()->roles->first()->name == config('constant.role.admin'))
                     <li class="c-sidebar-nav-title">SYSTEM</li>
                     <li class="has-sub nav-item " ><a href="#"><i class="icon-user" ></i><span data-i18n="" class="menu-title">Access</span></a>
                         <ul class="menu-content" >
