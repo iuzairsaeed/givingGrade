@@ -30,8 +30,7 @@ class GoalRequest extends FormRequest
                     'title' => 'required',
                     'description' => 'required',
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    'charity' => 'required',
-                    // |exists:charities,id
+                    'charity' => 'required|exists:charities,id|unique:goals:charity_id',
                     'currentTarget' => 'required',
                     'startDate'  =>  'required|date|after_or_equal:'.Carbon::NOW()->format('d-m-Y'),
                     'endDate'    =>  'required|date|after:start_date',
@@ -45,8 +44,7 @@ class GoalRequest extends FormRequest
                     'description' => 'required',
                     'imageRemove' => 'nullable',
                     'image' => 'required_if:imageRemove,1|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    'charity' => 'required',
-                    // |exists:charities,id
+                    'charity' => 'required|exists:charities,id|unique:goals:charity_id,'.$this->id,
                     'currentTarget' => 'required',
                     'startDate'  =>  'required|date|after_or_equal:'.Carbon::NOW()->format('d-m-Y'),
                     'endDate'    =>  'required|date|after:start_date',

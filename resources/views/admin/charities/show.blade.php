@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title-wrap bar-teal">
-                    <h4 class="card-title" id="horz-layout-colored-controls">Subject</h4>
+                    <h4 class="card-title" id="horz-layout-colored-controls">Charity</h4>
                 </div>
             </div>
             <div class="card-body px-4">
@@ -33,6 +33,29 @@
 
                         <div class="col-6">
                             <div class="form-group">
+                                <label class="label-control" for="vendor_no">Tagline </label>
+                                <input type="text" class="form-control border-primary" value ={{$record->tagline}} readonly>
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control" for="vendor_no">Teacher </label>
+                                <input type="text" class="form-control border-primary" value ={{$record->teacher->name}} readonly>
+                            </div>
+
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control" for="vendor_no">Classroom </label>
+                                <input type="text" class="form-control border-primary" value ={{$record->classroom->title}} readonly>
+                            </div>
+
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label class="label-control" for="vendor_no">Status </label>
                                 <input type="text" class="form-control border-primary" value ={{$record->active ==1 ? 'YES ' : 'NO'}} readonly>
                             </div>
@@ -46,7 +69,7 @@
                         </div>
                     </div>
                     <div class="form-actions right">
-                    <a href="{{route('subjects.index')}}">
+                    <a href="{{route('charities.index')}}">
                         <button type="button" class="btn btn-danger mr-1">
                              Back
                         </button>

@@ -62,13 +62,13 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="label-control">Select Subjects</label>
-                                <select name="subjects[]" id="subjects" value="{{old('user')}}" class="form-control border-primary" multiple>
+                                <label class="label-control">Select Class</label>
+                                <select name="class" id="class" value="{{old('class')}}" class="form-control border-primary">
                                 </select>
                             </div>
-                            @if($errors->first('subjects'))
+                            @if($errors->first('class'))
                                 <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('subjects') }}</strong>
+                                    <strong>{{ $errors->first('class') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -141,11 +141,11 @@
         }
     });
 
-    $('#subjects').select2({
-        placeholder: "Search Subject",
+    $('#class').select2({
+        placeholder: "Search Class",
         allowClear: true,
         ajax: {
-            url: "{{ route('subjects.get-subject') }}",
+            url: "{{ route('classrooms.get-classroom') }}",
             type: "GET",
             dataType: 'json',
             data: function (params) {

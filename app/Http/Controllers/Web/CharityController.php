@@ -17,10 +17,7 @@ class CharityController extends Controller
 
     public function __construct(Charity $model)
     {
-        // $this->middleware('permission:charity-list|charity-create|charity-edit|charity-delete', ['only' => ['index','show','getList']]);
-        // $this->middleware('permission:charity-create', ['only' => ['create','store']]);
-        // $this->middleware('permission:charity-edit', ['only' => ['edit','update']]);
-        // $this->middleware('permission:charity-delete', ['only' => ['destroy']]);
+
         $this->model = new CharityRepository($model);
         $this->router = 'charities.index';
         $this->routerService = new RouterService();
@@ -77,12 +74,11 @@ class CharityController extends Controller
     public function store(CharityRequest $request)
     {
         $data = $request->validated();
-        dd($data);
         $message = 'Record successfully updated.';
         $error = false;
         try {
             // $record = $this->model->show($id);
-            // $this->model->update($data,$record);
+            $this->model->create($data);
         } catch (\Exception $e) {
             $error = true;
             $message = $e->getMessage();
@@ -102,7 +98,8 @@ class CharityController extends Controller
      */
     public function show($id)
     {
-        //
+        $record = $this->model->show($id);
+        return view('admin.charities.show', compact('record'));
     }
 
     /**
@@ -113,7 +110,8 @@ class CharityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $record = $this->model->show($id);
+        return view('admin.charities.edit', compact('record'));
     }
 
     /**
@@ -123,16 +121,35 @@ class CharityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CharityRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+        $message = 'Record successfully updated.';
+        $error = false;
+        try {
+            $record = $this->model->show($id);
+            $this->model->update($data,$record);
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     public function getCharity(Request $request)
     {
         $search = trim($request->search);
-
-        $users = Charity::where('name','Like',"%".$search."%")->get();
+        $users = collect();
+        if(auth()->user()->roles->first()->name == config('constant.role.teacher')) {
+            $users = Charity::where('name','Like',"%".$search."%")->where('user_id',auth()->user()->id)->dd();
+        }
+        else {
+            $users = Charity::where('name','Like',"%".$search."%")->get();
+        }
         $formatted_depts = [];
         foreach ($users as $user) {
             $formatted_depts[] = ['id' => $user->id, 'text' => $user->name];
@@ -148,6 +165,17 @@ class CharityController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $error = false;
+        try {
+            $message = 'Record successfully deleted';
+            $record = $this->model->show($id);
+            $this->model->delete($record);
+        }
+        catch (Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+        return $this->routerService->redirectBack($error, $message);
     }
 }

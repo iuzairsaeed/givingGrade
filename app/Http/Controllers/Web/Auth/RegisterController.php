@@ -68,15 +68,13 @@ class RegisterController extends Controller
                 'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
                 'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['bail','required', 'string', 'min:6', 'confirmed'],
-                'dob' => ['bail','required', 'date',],
-                'phone' => ['required','regex:/[0-9+*-*]/'],
+                'terms' => ['required', 'in:1'],
             ]),
             'private' => Validator::make($data, [
                 'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
                 'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['bail','required', 'string', 'min:6', 'confirmed'],
-                'dob' => ['bail','required', 'date',],
-                'phone' => ['required','regex:/[0-9+*-*]/'],
+                'terms' => ['required', 'in:1'],
             ])
         ];
 
@@ -94,10 +92,9 @@ class RegisterController extends Controller
 
         return User::create([
             'name' => $data['name'] ?? '',
-            'username' => $data['username'] ?? '',
             'email' => $data['email'],
-            'dob' => $data['dob'],
-            'gender' => $data['gender'],
+            'dob' => $data['dob'] ?? "",
+            'gender' => $data['gender'] ?? "",
             'password' => Hash::make($data['password']),
             'device_token' => $data['device_token'] ?? null,
         ]);
@@ -120,5 +117,14 @@ class RegisterController extends Controller
         $role = Role::where('name', 'teacher')->first();
         $teacher->assignRole([$role->id]);
         return redirect("/users/$teacher->id");
+    }
+
+    public function sponsor(Request $request)
+    {
+        $this->validator($request->all(),'private')->validate();
+        event(new Registered($sponsor = $this->create($request->all())));
+        $role = Role::where('name', 'private')->first();
+        $sponsor->assignRole([$role->id]);
+        return redirect("/users/$sponsor->id");
     }
 }

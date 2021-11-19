@@ -95,6 +95,18 @@ class ClassroomController extends Controller
         return view('admin.classrooms.create');
     }
 
+    public function getClassroom(Request $request)
+    {
+        $search = trim($request->search);
+
+        $classrooms = Classroom::where('title','Like',"%".$search."%")->where('active',1)->get();
+        $formatted_depts = [];
+        foreach ($classrooms as $classroom) {
+            $formatted_depts[] = ['id' => $classroom->id, 'text' => $classroom->title];
+        }
+
+        return \Response::json($formatted_depts);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -179,6 +191,17 @@ class ClassroomController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $error = false;
+        try {
+            $message = 'Record successfully deleted';
+            $record = $this->model->show($id);
+            $this->model->delete($record);
+        }
+        catch (Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+        return $this->routerService->redirectBack($error, $message);
     }
 }

@@ -143,10 +143,10 @@
 @section('afterScript')
 <script>
     $('#user').select2({
-        placeholder: "Search User",
+        placeholder: "Search Charity",
         allowClear: true,
         ajax: {
-            url: "{{ route('users.get-user') }}",
+            url: "{{ route('charities.get-charity') }}",
             type: "GET",
             dataType: 'json',
             data: function (params) {

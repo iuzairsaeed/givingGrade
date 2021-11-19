@@ -6,11 +6,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title-wrap bar-teal">
-                    <h4 class="card-title" id="horz-layout-colored-controls">Create Classroom</h4>
+                    <h4 class="card-title" id="horz-layout-colored-controls">Edit Charity</h4>
                 </div>
             </div>
             <div class="card-body px-4">
-                <form class="form" action="{{route('classrooms.update',$record->id)}}" method="POST" enctype="multipart/form-data">
+                <form class="form" action="{{route('charities.update',$record->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -25,6 +25,8 @@
                                 </span>
                             @endif
                         </div>
+                        <input type="hidden" id="title" class="form-control border-primary  @error('title') is-invalid @enderror" value={{$record->id}} name="charityId" placeholder="Enter Title">
+
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Description </label>
@@ -36,7 +38,17 @@
                                 </span>
                             @endif
                         </div>
-
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control" for="vendor_no">Tagline </label>
+                                <input type="text" id="tagline" class="form-control border-primary  @error('tagline') is-invalid @enderror" name="tagline" value="{{$record->tagline}}" placeholder="Enter tagline">
+                            </div>
+                            @if($errors->first('tagline'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('tagline') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Status </label>
@@ -66,13 +78,13 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="label-control">Select Subjects</label>
-                                <select name="subjects[]" id="subjects" value="{{old('user')}}" class="form-control border-primary" multiple>
+                                <label class="label-control">Select Class</label>
+                                <select name="class" id="class" value="{{old('class')}}" class="form-control border-primary">
                                 </select>
                             </div>
-                            @if($errors->first('subjects'))
+                            @if($errors->first('class'))
                                 <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('subjects') }}</strong>
+                                    <strong>{{ $errors->first('class') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -140,11 +152,11 @@
         }
     });
 
-    $('#subjects').select2({
-        placeholder: "Search Subject",
+    $('#class').select2({
+        placeholder: "Search Class",
         allowClear: true,
         ajax: {
-            url: "{{ route('subjects.get-subject') }}",
+            url: "{{ route('classrooms.get-classroom') }}",
             type: "GET",
             dataType: 'json',
             data: function (params) {

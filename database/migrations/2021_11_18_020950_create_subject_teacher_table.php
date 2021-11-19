@@ -15,8 +15,8 @@ class CreateSubjectTeacherTable extends Migration
     {
         Schema::create('subject_teacher', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('subject_id')->references('id')->on('subjects');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->timestamps();
         });
     }

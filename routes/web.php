@@ -13,11 +13,14 @@ Route::group(['namespace' => 'Web'], function () {
 
     Route::post('registerUser','Auth\RegisterController@register')->name('registerUser');
     Route::post('register\teacher','Auth\RegisterController@teacher')->name('register.teacher');
+    Route::post('register\sponsor','Auth\RegisterController@sponsor')->name('register.sponsor');
+
     Route::group(['middleware' => 'auth' ], function () {
 
         Route::resource('/charities','CharityController')->except('destroy');
         Route::get('charities/{classroom}/destroy', 'CharityController@destroy')->name('charities.delete');
         Route::post('charities/list', 'CharityController@getList')->name('charities.getList');
+        Route::get('charities-dropdown-list', 'CharityController@getCharity')->name('charities.get-charity');
 
         Route::resource('/subjects','SubjectController')->except('destroy');
         Route::post('subjects/list', 'SubjectController@getList')->name('subjects.getList');
@@ -34,7 +37,7 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('classrooms/{classroom}/destroy', 'ClassroomController@destroy')->name('classrooms.delete');
         Route::post('classrooms/list', 'ClassroomController@getList')->name('classrooms.getList');
         Route::post('classrooms/teacher/list', 'ClassroomController@getTeacherClassroomList')->name('classrooms.teacher.getList');
-
+        Route::get('classrooms-dropdown-list', 'ClassroomController@getClassroom')->name('classrooms.get-classroom');
         Route::get('classrooms-teacher', 'ClassroomController@teacherClassroom')->name('classrooms.teacher.index');
 
         Route::resource('users','UserController');
@@ -49,6 +52,9 @@ Route::group(['namespace' => 'Web'], function () {
 
         Route::get('changePassword','ProfileController@showChangePasswordForm');
         Route::post('changePassword','ProfileController@changePassword')->name('changePassword');
+
+        Route::get('teacher-profile','ProfileController@showTeacherProfileForm');
+        Route::post('teacher-profile','ProfileController@teacherProfile')->name('teacher.profile');
 
         Route::get('profile','ProfileController@showProfileForm');
         Route::post('profile','ProfileController@profile')->name('profile');

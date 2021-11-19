@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <div class="px-3">
-                        <form action="{{route('profile')}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('teacher.profile')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-body">
                                 <div class="row">
@@ -43,14 +43,59 @@
 
                                                 <input type="date" id="dob" class="form-control border-primary" name="dob" placeholder="Date of birth" value="{{old('dob', $user->dob)}}" required>
                                         </div>
-                                        @if($errors->first('dob'))
+                                    </div>
+                                    @if($errors->first('dob'))
                                         <span class="invalid-feedback d-block" role="alert">
                                             <strong>{{ $errors->first('dob') }}</strong>
                                         </span>
                                     @endif
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">School</label>
+                                            <input id="school" name="school" class="form-control border-primary" type="text" value="{{old('school', $user->school)}}">
+                                        </div>
+                                        @if($errors->first('school'))
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $errors->first('school') }}</strong>
+                                            </span>
+                                        @endif
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Grade Level</label>
+                                            <input id="grade" name="grade" class="form-control border-primary" type="text" value="{{old('grade', $user->grade_level)}}">
+                                        </div>
+                                        @if($errors->first('grade'))
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{ $errors->first('grade') }}</strong>
+                                        </span>
+                                    @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">No Of Students</label>
+                                            <input id="students" name="students" class="form-control border-primary" type="number" value="{{old('students', $user->students)}}">
+                                        </div>
+                                        @if($errors->first('students'))
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $errors->first('students') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
 
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="label-control">Select Subjects</label>
+                                            <select name="subjects[]" id="user" value="{{old('user')}}" class="form-control border-primary" multiple>
+                                            </select>
+                                        </div>
+                                        @if($errors->first('subjects'))
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $errors->first('subjects') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                     <div class="col-md-6" id="userAvatar"   style="display: none">
                                         <div class="form-group">
                                             <label class="label-control">Avatar</label>

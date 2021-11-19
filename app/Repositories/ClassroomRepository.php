@@ -66,7 +66,7 @@ class ClassroomRepository implements RepositoryInterface
     // remove record from the database
     public function delete(Model $model)
     {
-        Storage::disk('user_profile')->deleteDirectory('subjects/' .$model->id);
+        Storage::disk('user_profile')->deleteDirectory('class/' .$model->id);
         return $model->delete();
     }
 

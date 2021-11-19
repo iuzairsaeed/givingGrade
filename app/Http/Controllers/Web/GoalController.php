@@ -33,6 +33,7 @@ class GoalController extends Controller
      */
     public function index()
     {
+
         return view('admin.goals.index');
     }
 

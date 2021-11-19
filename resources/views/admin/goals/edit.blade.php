@@ -117,6 +117,7 @@
 
                             </div>
                         </div>
+                        <input type="hidden" name="goalId" value="{{$record->id}}">
                         @if($errors->first('image'))
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $errors->first('image') }}</strong>
@@ -151,11 +152,11 @@
 <script>
 
 
-    $('#user').select2({
-        placeholder: "Search User",
+$('#user').select2({
+        placeholder: "Search Charity",
         allowClear: true,
         ajax: {
-            url: "{{ route('users.get-user') }}",
+            url: "{{ route('charities.get-charity') }}",
             type: "GET",
             dataType: 'json',
             data: function (params) {
@@ -170,7 +171,6 @@
             },
             cache: true
         }
-
     });
 
     $('#removeImage').click(function(){

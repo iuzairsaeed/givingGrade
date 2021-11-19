@@ -29,15 +29,16 @@ class CharityRepository implements RepositoryInterface
         $record->title = $title;
         $record->user_id = $teacher;
         $record->description = $description;
+        $record->class_id = $class;
+        $record->tagline = $tagline;
         $record->active = $status;
         $record->save();
         $file = $image;
         $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $filePath = "class/".$record->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
+        $filePath = "charity/".$record->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
         $store = Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
         $record->image = $filePath;
         $record->update();
-        $record->subjects()->sync($subjects);
         return $record;
     }
 
@@ -48,25 +49,26 @@ class CharityRepository implements RepositoryInterface
         $model->title = $title;
         $model->description = $description;
         $model->active = $status;
+        $model->class_id = $class;
+        $model->tagline = $tagline;
         $model->user_id = (int) $teacher;
         $model->save();
         if($imageRemove == 1) {
             $file = $image;
-            Storage::disk('user_profile')->deleteDirectory('class/' .$model->id);
+            Storage::disk('user_profile')->deleteDirectory('charity/' .$model->id);
             $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $filePath = "class/".$model->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
+            $filePath = "charity/".$model->id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
             Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
             $model->image = $filePath;
             $model->update();
         }
-        $model->subjects()->sync($subjects);
         return $model;
     }
 
     // remove record from the database
     public function delete(Model $model)
     {
-        Storage::disk('user_profile')->deleteDirectory('subjects/' .$model->id);
+        Storage::disk('user_profile')->deleteDirectory('charity/' .$model->id);
         return $model->delete();
     }
 
@@ -118,7 +120,7 @@ class CharityRepository implements RepositoryInterface
         $from = $request->date_from;
         $to = $request->date_to;
 
-        $records = $this->model->with('teacher:id,name')->withCount($withCount);
+        $records = $this->model->with(['teacher:id,name','classroom:id,title'])->withCount($withCount);
 
         if($whereChecks){
             foreach($whereChecks as $key => $check){
@@ -157,7 +159,6 @@ class CharityRepository implements RepositoryInterface
         $records = $records->limit($length)->offset($start)->get();
         $message = 'Success';
         $response = 200;
-
         return [
             'message' => $message,
             'response' => $response,

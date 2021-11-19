@@ -53,20 +53,20 @@
             { data: 'description' },
             { data: 'teacher.name' },
             { data: 'classroom.title' },
-            { data: 'tag_line' },
+            { data: 'tagline' },
             { data: 'active', render:function (data, type, full, meta) {
                                 return full.active   ? `<i class="fa fa-dot-circle-o success font-medium-1 mr-1"></i> Active`
                                                         : `<i class="fa fa-dot-circle-o danger font-medium-1 mr-1"></i> InActive`;  }
             },
             { data: 'created_at' },
             { data: 'actions', render:function (data, type, full, meta) {
-                                return `<a href="/classrooms/${full.id}" class="showStatus primary p-0 mr-2 success" title="View">
+                                return `<a href="/charities/${full.id}" class="showStatus primary p-0 mr-2 success" title="View">
                                             <i class="ft-eye font-medium-3"></i>
                                         </a>
-                                        <a  href="/classrooms/${full.id}/edit"  class="showStatus info p-0 mr-2 success" title="View">
+                                        <a  href="/charities/${full.id}/edit"  class="showStatus info p-0 mr-2 success" title="View">
                                             <i class="ft-edit font-medium-3"></i>
                                         </a>
-                                        <a href="/classrooms/${full.id}/destroy"  class="showStatus danger p-0 mr-2 success" title="View">
+                                        <a href="/charities/${full.id}/destroy"  class="showStatus danger p-0 mr-2 success" title="View">
                                             <i class="ft-trash font-medium-3"></i>
                                         </a>`; }
             }

@@ -13,7 +13,7 @@ class CharityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -30,7 +30,8 @@ class CharityRequest extends FormRequest
                     'description' => 'required',
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'teacher' => 'required|exists:users,id',
-                    'class' => 'required|exists:classrooms,id|unique:charities',
+                    'class' => 'required|exists:classrooms,id|unique:charities,class_id',
+                    'tagline' => 'required',
                     'status'    =>  'required'
                 ];
                 break;
@@ -39,9 +40,10 @@ class CharityRequest extends FormRequest
                     'title' => 'required',
                     'description' => 'required',
                     'teacher' => 'required|exists:users,id',
-                    'class' => 'required|exists:classrooms,id|unique:charities,class_id'.$this->charityId,
+                    'class' => 'required|exists:classrooms,id|unique:charities,class_id,'.$this->charityId,
                     'imageRemove' => 'nullable',
                     'image' => 'required_if:imageRemove,1|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'tagline' => 'required',
                     'status'    =>  'required'
                 ];
                 break;

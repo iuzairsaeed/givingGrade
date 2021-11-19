@@ -88,7 +88,7 @@ class GoalRepository implements RepositoryInterface
     // remove record from the database
     public function delete(Model $model)
     {
-        Storage::disk('user_profile')->deleteDirectory('users/' .$model->id);
+        Storage::disk('user_profile')->deleteDirectory('goals/' .$model->id);
         return $model->delete();
     }
 

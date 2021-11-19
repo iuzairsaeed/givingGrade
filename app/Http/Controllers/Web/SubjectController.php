@@ -203,6 +203,10 @@ class SubjectController extends Controller
             $message = $e->getMessage();
             Log::error($e);
         }
+        catch (\Illuminate\Database\QueryException $e) {
+            $error = true;
+            $message = "Please unselect subject from teacher and classroom first!";
+        }
         return $this->routerService->redirectBack($error, $message);
     }
 }
