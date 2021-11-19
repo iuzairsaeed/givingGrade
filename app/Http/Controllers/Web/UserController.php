@@ -8,6 +8,8 @@ use App\Repositories\UserRepository;
 use App\Models\User;
 use App\Models\Customer;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Services\RouterService;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -21,6 +23,8 @@ class UserController extends Controller
         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
         $this->model = new UserRepository($model);
+        $this->router = 'users.index';
+        $this->routerService = new RouterService();
     }
 
     public function getList(Request $request)
@@ -99,9 +103,21 @@ class UserController extends Controller
      */
     public function store(RegisterRequest $request)
     {
-        $user = $this->model->create($request->all());
-        $user->assignRole($request->input('roles'));
-        return redirect('users')->with('success', 'User created successfully.');
+
+        $data = $request->validated();
+        $message = 'Record successfully created.';
+        $error = false;
+        try {
+            $this->model->create($data);
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     /**
@@ -110,10 +126,11 @@ class UserController extends Controller
      * @param  \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        $roles = Role::pluck('name','name')->all();
-        return view('users.show', compact('user','roles'));
+        $record = $this->model->show($id,['roles']);
+        // dd($record);
+        return view('admin.users.show', compact('record'));
     }
 
     /**
@@ -122,9 +139,11 @@ class UserController extends Controller
      * @param  \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        // return view('users.edit', compact('user'));
+        $user = $this->model->show($id,['roles:id']);
+        $roles = Role::pluck('name','name')->all();
+        return view('admin.users.edit', compact('user','roles'));
     }
 
     /**
@@ -134,17 +153,33 @@ class UserController extends Controller
      * @param  \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(RegisterRequest $request, $id)
     {
-        $this->validate($request, [
-            'is_active' => 'required|boolean',
-            'roles' => 'required'
-        ]);
-        $this->model->update($request->only($this->model->getModel()->fillable), $user);
-        $user->syncRoles($request->input('roles'));
-        // $updateUser->assignRole();
+        $data = $request->validated();
+        $message = 'Record successfully updated.';
+        $error = false;
+        try {
+            extract($data);
+            $user = User::find($id);
+            $user->name =$name;
+            $user->email =$email;
+            $user->password = bcrypt($password);
+            $user->dob =$dob;
+            if($roles == 1) {
+                $user->is_admin = 1;
+            }
+            $user->is_active =$status;
+            $user->save();
+            $user->syncRoles([$roles]);
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
 
-        return redirect('users')->with('success', 'User updated successfully');
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
 

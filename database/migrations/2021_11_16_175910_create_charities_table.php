@@ -15,6 +15,8 @@ class CreateCharitiesTable extends Migration
     {
         Schema::create('charities', function (Blueprint $table) {
             $table->id();
+            $table->integer('class_id');
+            $table->integer('user_id');
             $table->string('title');
             $table->longText('image');
             $table->string('description');

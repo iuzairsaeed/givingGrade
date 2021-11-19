@@ -24,24 +24,29 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
-            'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['bail', 'required', 'string', 'min:8', 'confirmed'],
-            'phone' => ['required','regex:/[0-9+*-*]/'],
-            // 'avatar' => ['required', 'image', 'mimes:jpg,jpeg,png|max:2048'],
-        ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            //
-        ];
+        switch ($this->method()) {
+            case "POST" :
+                return [
+                    'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
+                    'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['bail','required', 'string', 'min:6'],
+                    'dob' => ['bail','required', 'date',],
+                    'roles' => ['required','exists:roles,id'],
+                    'status' => ['required'],
+                ];
+            break;
+            case "PUT" :
+                return [
+                    'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
+                    'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->userId],
+                    'password' => ['bail','required', 'string', 'min:6'],
+                    'dob' => ['bail','required', 'date',],
+                    'roles' => ['required','exists:roles,id'],
+                    'status' => ['required'],
+                ];
+            break;
+            default:
+            break;
+        }
     }
 }

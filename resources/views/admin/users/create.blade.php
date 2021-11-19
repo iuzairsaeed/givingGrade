@@ -51,7 +51,7 @@
                                     @endif
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="email">Password</label>
+                                            <label for="password">Password</label>
                                             <input id="password" name="password" class="form-control border-primary" type="password" value="{{old('password')}}">
                                         </div>
                                         @if($errors->first('password'))
@@ -60,19 +60,43 @@
                                             </span>
                                         @endif
                                     </div>
+
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="label-control">Select Roles</label>
+                                            <select name="roles" id="roles" value="{{old('roles')}}" class="form-control border-primary">
+                                            </select>
+                                        </div>
+                                        @if($errors->first('roles'))
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $errors->first('roles') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="label-control" for="vendor_no">Status </label>
+                                            <select name="status" id="status" class="form-control form-control-sm" required>
+                                                <option value="1">Active</option>
+                                                <option value="0" >In-Active</option>
+                                            </select>
+                                        </div>
+                                        @if($errors->first('status'))
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $errors->first('status') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-actions left">
-                                            <button type="button" class="btn btn-danger mr-1">
-                                                <i class="icon-trash"></i> Delete User
-                                            </button>
-
                                             <button type="submit" id="submit" class="btn btn-raised btn-success">
-                                                <i class="icon-note"></i> Update Profile
+                                                <i class="icon-note"></i> Save
                                             </button>
-                                            <a href="{{route('dashboard')}}">
+                                            <a href="{{route('users.index')}}">
                                                 <button type="button" class="btn btn-secondary mr-1">
                                                     <i class="icon-back"></i> Cancel
                                                 </button>
@@ -88,4 +112,28 @@
         </div>
     </div>
 </section>
+@endsection
+@section('afterScript')
+<script>
+    $('#roles').select2({
+        placeholder: "Search Role",
+        allowClear: true,
+        ajax: {
+            url: "{{ route('role.get-role') }}",
+            type: "GET",
+            dataType: 'json',
+            data: function (params) {
+                return {
+                    search: params.term
+                };
+            },
+            processResults: function (response) {
+                return {
+                    results: response
+                };
+            },
+            cache: true
+        }
+    });
+</script>
 @endsection

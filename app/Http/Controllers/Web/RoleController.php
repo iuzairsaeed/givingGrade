@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class RoleController extends Controller
 {
 
-    
+
  protected $model;
 
     public function __construct(Role $model)
@@ -53,7 +53,7 @@ class RoleController extends Controller
             $item['serial'] = $serial++;
             return $item;
         });
-        
+
         return response($data, 200);
     }
 
@@ -76,7 +76,7 @@ class RoleController extends Controller
         $role = Role::where('name','LIKE','%'.$search.'%')->get();
         $formatted_role = [];
         foreach ($role as $p) {
-            $formatted_role[] = ['id' => $p->name, 'text' => $p->name];
+            $formatted_role[] = ['id' => $p->id, 'text' => $p->name];
         }
 
         return \Response::json($formatted_role);

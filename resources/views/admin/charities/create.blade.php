@@ -38,12 +38,37 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="label-control" for="vendor_no">Title </label>
-                                <input type="text" id="title" class="form-control border-primary  @error('title') is-invalid @enderror" name="title" placeholder="Enter Title">
+                                <label class="label-control" for="vendor_no">Tagline </label>
+                                <input type="text" id="tagline" class="form-control border-primary  @error('tagline') is-invalid @enderror" name="tagline" placeholder="Enter tagline">
                             </div>
-                            @if($errors->first('title'))
+                            @if($errors->first('tagline'))
                                 <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('title') }}</strong>
+                                    <strong>{{ $errors->first('tagline') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control">Select Teacher</label>
+                                <select name="teacher" id="user" value="{{old('user')}}" class="form-control border-primary" >
+                                </select>
+                            </div>
+                            @if($errors->first('teacher'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('teacher') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control">Select Subjects</label>
+                                <select name="subjects[]" id="subjects" value="{{old('user')}}" class="form-control border-primary" multiple>
+                                </select>
+                            </div>
+                            @if($errors->first('subjects'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('subjects') }}</strong>
                                 </span>
                             @endif
                         </div>

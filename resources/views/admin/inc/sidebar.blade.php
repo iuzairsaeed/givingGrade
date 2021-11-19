@@ -39,6 +39,9 @@
                         <a href="{{route('users.index')}}"><span data-i18n="" class="menu-title">Users</span></a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{route('role.index')}}"><span data-i18n="" class="menu-title">Roles</span></a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{route('charities.index')}}"><span data-i18n="" class="menu-title">Charities</span></a>
                     </li>
                     <li class="nav-item">

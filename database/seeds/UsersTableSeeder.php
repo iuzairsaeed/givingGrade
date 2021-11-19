@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $roleN = Role::where('name', 'teacher')->first();
         $user->assignRole([$roleN->id]);
-       
+
         $corporate = User::create([
             'name' => 'Test Corporate',
             'email' => 'corporate@giving-grades.com',
@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $roleN = Role::where('name', 'corporate')->first();
         $corporate->assignRole([$roleN->id]);
-        
+
         $corporate = User::create([
             'name' => 'Test Private',
             'email' => 'private@giving-grades.com',

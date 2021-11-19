@@ -18,7 +18,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        
+
                     </table>
                 </div>
             </div>
@@ -57,9 +57,9 @@
                 </div>
 
                 <div class="form-actions center pt-2">
-                <a href="{{route('dashboard')}}">
+                <a href="{{route('role.index')}}">
                         <button type="button" class="btn btn-danger mr-1">
-                            <i class="icon-trash"></i> Cancel
+                         Cancel
                         </button>
                         </a>
                     <button type="submit" class="btn btn-raised btn-success updatebtn">
@@ -78,7 +78,7 @@
         headers: {
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
         }
-    }); 
+    });
     $(document).ready(function() {
         var table = $('#dTable').DataTable({
             processing: true,
@@ -99,8 +99,8 @@
                                     return `<a class="success p-0 mr-2 viewBtn" title="Edit" data-id="${full.id}" data-type="${full.type}" data-name="${full.name}" data-valueOriginal="${full.valueOriginal}" data-value="${full.value}"  data-toggle="modal" data-keyboard="false" data-target="#editPerm">
                                                 <i class="ft-edit font-medium-3"></i>
                                             </a>
-                                            <a href="#" id="${full.id}"class="danger p-0 mr-2 delete" title="delete" >
-                                                <i class="ft-trash-2 font-medium-3"></i>
+                                            <a href="/role" id="${full.id}"class="danger p-0 mr-2 cancel" title="cancel" >
+                                                <i class=" font-medium-3"></i>
                                             </a>`;  }
                 }
             ],

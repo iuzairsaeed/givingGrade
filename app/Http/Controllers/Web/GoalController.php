@@ -33,7 +33,6 @@ class GoalController extends Controller
      */
     public function index()
     {
-        // dd(auth()->user()->avatar);
         return view('admin.goals.index');
     }
 
@@ -86,7 +85,6 @@ class GoalController extends Controller
         try {
             $this->model->create($data);
         } catch (\Exception $e) {
-            dd($e);
             $error = true;
             $message = $e->getMessage();
             Log::error($e);

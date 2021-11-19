@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CharityRequest;
 use App\Http\Services\RouterService;
 use App\Models\Charity;
 use App\Repositories\CharityRepository;
@@ -16,10 +17,10 @@ class CharityController extends Controller
 
     public function __construct(Charity $model)
     {
-        $this->middleware('permission:charity-list|charity-create|charity-edit|charity-delete', ['only' => ['index','show','getList']]);
-        $this->middleware('permission:charity-create', ['only' => ['create','store']]);
-        $this->middleware('permission:charity-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:charity-delete', ['only' => ['destroy']]);
+        // $this->middleware('permission:charity-list|charity-create|charity-edit|charity-delete', ['only' => ['index','show','getList']]);
+        // $this->middleware('permission:charity-create', ['only' => ['create','store']]);
+        // $this->middleware('permission:charity-edit', ['only' => ['edit','update']]);
+        // $this->middleware('permission:charity-delete', ['only' => ['destroy']]);
         $this->model = new CharityRepository($model);
         $this->router = 'charities.index';
         $this->routerService = new RouterService();
@@ -73,9 +74,24 @@ class CharityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CharityRequest $request)
     {
-        //
+        $data = $request->validated();
+        dd($data);
+        $message = 'Record successfully updated.';
+        $error = false;
+        try {
+            // $record = $this->model->show($id);
+            // $this->model->update($data,$record);
+        } catch (\Exception $e) {
+            $error = true;
+            $message = $e->getMessage();
+            Log::error($e);
+        }
+
+        if($error)
+            return $this->routerService->redirectBack($error, $message);
+        return $this->routerService->redirect($this->router, $error, $message);
     }
 
     /**

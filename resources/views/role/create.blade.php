@@ -28,9 +28,9 @@
                         </div>
                     </div>
                     <div class="form-actions right">
-                    <a href="{{route('dashboard')}}">
+                    <a href="{{route('role.index')}}">
                         <button type="button" class="btn btn-danger mr-1">
-                            <i class="icon-trash"></i> Cancel
+                           Cancel
                         </button>
                         </a>
                         <button type="submit" class="btn btn-success">
@@ -42,11 +42,11 @@
         </div>
     </div>
 </div>
-    
+
 @endsection
 @section('afterScript')
 <script>
-        
+
     $("#permForm").submit( function(e){
         e.preventDefault();
         vendor = $("#permForm");
@@ -95,7 +95,7 @@
             cache: true
         }
     });
-    
+
 </script>
 
 @endsection

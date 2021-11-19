@@ -27,24 +27,20 @@ class UserRepository implements RepositoryInterface
     // create a new record in the database
     public function create(array $data)
     {
-        $this->model->name = $data['name'];
-        $this->model->username = $data['username'];
-        $this->model->email = $data['email'];
-        $this->model->password = bcrypt($data['password']);
-        $this->model->phone = $data['phone'];
-        $this->model->save();
-        // $id = $this->model->id;
-        // $userUpdate = $this->model->find($id);
-        // Storage::disk('user_profile')->deleteDirectory('users/' .$id);
-        // $file = $data['avatar'];
-        // $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        // $filePath = "users/".$id.'/' . $fileName . time() . "." . $file->getClientOriginalExtension();
-        // $store = Storage::disk('user_profile')->put( $filePath, file_get_contents($file));
-        // $userUpdate->avatar = $filePath;
-        // $userUpdate->update();
-        return $this->model;
+        extract($data);
+        $user = $this->model;
+        $user->name =$name;
+        $user->email =$email;
+        $user->password = bcrypt($password);
+        $user->dob =$dob;
+        if($roles == 1) {
+            $user->is_admin = 1;
+        }
+        $user->is_active =$status;
+        $user->save();
+        $user->assignRole([$roles]);
+        return $user;
     }
-
     // update record in the database
     public function update(array $data, Model $model)
     {

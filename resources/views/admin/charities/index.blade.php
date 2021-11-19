@@ -17,6 +17,8 @@
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Teacher</th>
+                                <th>Classroom</th>
+                                <th>Tagline</th>
                                 <th>Status</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
@@ -37,7 +39,7 @@
         serverSide: true,
         ajax:
         {
-            url: '{{ route("classrooms.getList") }}',
+            url: '{{ route("charities.getList") }}',
             type: "POST",
             data:{ _token: "{{csrf_token()}}"},
             dataType: "JSON",
@@ -50,6 +52,8 @@
             { data: 'title' },
             { data: 'description' },
             { data: 'teacher.name' },
+            { data: 'classroom.title' },
+            { data: 'tag_line' },
             { data: 'active', render:function (data, type, full, meta) {
                                 return full.active   ? `<i class="fa fa-dot-circle-o success font-medium-1 mr-1"></i> Active`
                                                         : `<i class="fa fa-dot-circle-o danger font-medium-1 mr-1"></i> InActive`;  }
