@@ -8,7 +8,7 @@
     <div class="wrapper">
         {{-- @if(Auth::check()) --}}
             @include('admin.inc.sidebar')
-            
+
             @include('admin.inc.navbar')
             <div class="main-panel">
                 <div class="main-content">

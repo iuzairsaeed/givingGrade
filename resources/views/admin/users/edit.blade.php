@@ -117,6 +117,7 @@
 @endsection
 @section('afterScript')
 <script>
+    let user = `{!! $user->roles()->first()->id !!}`
     $('#roles').select2({
         placeholder: "Search Role",
         allowClear: true,

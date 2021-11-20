@@ -67,6 +67,8 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('role-list', 'RoleController@getList')->name('role.get-list');
         Route::get('role-dropdown-list', 'RoleController@getRole')->name('role.get-role');
 
+        Route::get('leaderboard','LeaderboardController@index')->name('leaderboard');
+
     });
 
 });

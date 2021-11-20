@@ -35,6 +35,11 @@ class PermissionTableSeeder extends Seeder
             'goal-create',
             'goal-edit',
             'goal-delete',
+            'classroom-getList',
+            'classroom-list',
+            'classroom-create',
+            'classroom-edit',
+            'classroom-delete',
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);

@@ -9,8 +9,8 @@ return [
          */
         'admin' => 'admin',
         'teacher' => 'teacher',
-        'corporate' => 'corporate',
-        'private' => 'private'
+        'corporate' => 'sponsor',
+        'private' => 'sponsor'
     ]
 ];
 

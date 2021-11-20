@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
             'is_admin' => false,
             'created_at' => now()
         ]);
-        $roleN = Role::where('name', 'corporate')->first();
+        $roleN = Role::where('name', 'sponsor')->first();
         $corporate->assignRole([$roleN->id]);
 
         $corporate = User::create([
@@ -52,7 +52,7 @@ class UsersTableSeeder extends Seeder
             'is_admin' => false,
             'created_at' => now()
         ]);
-        $roleN = Role::where('name', 'private')->first();
+        $roleN = Role::where('name', 'sponsor')->first();
         $corporate->assignRole([$roleN->id]);
     }
 }

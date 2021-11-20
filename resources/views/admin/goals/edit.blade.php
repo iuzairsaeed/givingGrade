@@ -38,12 +38,24 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="label-control" for="vendor_no">Current Target </label>
-                                <input type="number" id="currentTarget" value={{$record->current_target}} class="form-control border-primary @error('currentTarget') is-invalid @enderror" name="currentTarget" placeholder="Enter Current Target">
+                                <label class="label-control" for="vendor_no">Target </label>
+                                <input type="number" value="{{$record->actual}}" class="form-control border-primary @error('target') is-invalid @enderror" name="target" placeholder="Enter Current Target">
                             </div>
-                            @if($errors->first('currentTarget'))
+                            @if($errors->first('target'))
                                 <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('currentTarget') }}</strong>
+                                    <strong>{{ $errors->first('target') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="label-control" for="vendor_no">Donations </label>
+                                <input type="number" id="currentTarget" value={{$record->current_target}} class="form-control border-primary @error('donations') is-invalid @enderror" name="donations" placeholder="Enter Donations Received">
+                            </div>
+                            @if($errors->first('donations'))
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $errors->first('donations') }}</strong>
                                 </span>
                             @endif
                         </div>

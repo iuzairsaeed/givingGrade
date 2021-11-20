@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
         switch ($this->method()) {
             case "POST" :
                 return [
-                    'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
+                    'name' => ['bail', 'max:255', 'min:3'],
                     'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
                     'password' => ['bail','required', 'string', 'min:6'],
                     'dob' => ['bail','required', 'date',],
@@ -37,7 +37,7 @@ class RegisterRequest extends FormRequest
             break;
             case "PUT" :
                 return [
-                    'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
+                    'name' => ['bail', 'max:255', 'min:3'],
                     'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->userId],
                     'password' => ['bail','required', 'string', 'min:6'],
                     'dob' => ['bail','required', 'date',],

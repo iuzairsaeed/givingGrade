@@ -16,8 +16,8 @@
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Description</th>
-                                <th>Actual Target</th>
-                                <th>Current Target</th>
+                                <th>Target</th>
+                                <th>Donations</th>
                                 <th>Starting Date</th>
                                 <th>Ending Date</th>
                                 <th>Status</th>

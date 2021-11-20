@@ -17,10 +17,10 @@ class ClassroomController extends Controller
 
     public function __construct(Classroom $model)
     {
-        // $this->middleware('permission:classroom-list|classroom-create|classroom-edit|classroom-delete', ['only' => ['index','show','getList']]);
-        // $this->middleware('permission:classroom-create', ['only' => ['create','store']]);
-        // $this->middleware('permission:classroom-edit', ['only' => ['edit','update']]);
-        // $this->middleware('permission:classroom-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:classroom-list|classroom-create|classroom-edit|classroom-delete', ['only' => ['index','show','getList']]);
+        $this->middleware('permission:classroom-create', ['only' => ['create','store']]);
+        $this->middleware('permission:classroom-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:classroom-delete', ['only' => ['destroy']]);
         $this->model = new ClassroomRepository($model);
         $this->router = 'classrooms.index';
         $this->routerService = new RouterService();

@@ -17,7 +17,10 @@ class CharityController extends Controller
 
     public function __construct(Charity $model)
     {
-
+        $this->middleware('permission:charity-list|charity-create|charity-edit|charity-delete', ['only' => ['index','show','getList']]);
+        $this->middleware('permission:charity-create', ['only' => ['create','store']]);
+        $this->middleware('permission:charity-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:charity-delete', ['only' => ['destroy']]);
         $this->model = new CharityRepository($model);
         $this->router = 'charities.index';
         $this->routerService = new RouterService();
@@ -145,14 +148,14 @@ class CharityController extends Controller
         $search = trim($request->search);
         $users = collect();
         if(auth()->user()->roles->first()->name == config('constant.role.teacher')) {
-            $users = Charity::where('name','Like',"%".$search."%")->where('user_id',auth()->user()->id)->dd();
+            $users = Charity::where('title','Like',"%".$search."%")->where('user_id',auth()->user()->id)->get();
         }
         else {
             $users = Charity::where('name','Like',"%".$search."%")->get();
         }
         $formatted_depts = [];
         foreach ($users as $user) {
-            $formatted_depts[] = ['id' => $user->id, 'text' => $user->name];
+            $formatted_depts[] = ['id' => $user->id, 'text' => $user->title];
         }
 
         return \Response::json($formatted_depts);

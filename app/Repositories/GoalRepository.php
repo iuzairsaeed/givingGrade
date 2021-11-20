@@ -30,7 +30,8 @@ class GoalRepository implements RepositoryInterface
         $record = $this->model;
         $record->title = $title;
         $record->description = $description;
-        $record->actual_target = 100;
+        $record->actual_target = $target;
+        $record->current_target = $donations;
         $record->starting_date = $startDate;
         $record->ending_date = $endDate;
         $record->student_count = $student;
@@ -63,8 +64,8 @@ class GoalRepository implements RepositoryInterface
         extract($data);
         $model->title = $title;
         $model->description = $description;
-        $model->actual_target = 100;
-        $model->current_target = 100;
+        $model->actual_target = $target;
+        $model->current_target = $donations;
         $model->starting_date = $startDate;
         $model->ending_date = $endDate;
         $model->active = $status;

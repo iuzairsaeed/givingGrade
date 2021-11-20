@@ -78,7 +78,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Charity </label>
-                                <input type="text" class="form-control border-primary" value ={{$record->charity}} readonly>
+                                <input type="text" class="form-control border-primary" value ={{$record->charity->title}} readonly>
                             </div>
 
                         </div>

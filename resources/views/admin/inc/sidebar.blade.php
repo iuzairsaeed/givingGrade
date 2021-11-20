@@ -18,7 +18,7 @@
                 $segment2 = Request::segment(2);
             @endphp
             <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
-                <li class="nav-item {{ $segment1 === 'admin_dashboard' ? 'active' : null }}"><a href="/admin_dashboard"><i class="icon-speedometer"></i><span data-i18n="" class="menu-title">Dashboard</span></a>
+                <li class="nav-item {{ $segment1 === 'dashboard' ? 'active' : null }}"><a href="/dashboard"><i class="icon-speedometer"></i><span data-i18n="" class="menu-title">Dashboard</span></a>
                 </li>
                 <li class="c-sidebar-nav-title">Giving Grades</li>
                 <ul class="menu-content" >
@@ -52,6 +52,10 @@
                         <a href="{{route('classrooms.index')}}"><span data-i18n="" class="menu-title">Classrooms</span></a>
                     </li>
                    @endif
+
+                   <li class="nav-item">
+                    <a href="{{route('leaderboard')}}"><span data-i18n="" class="menu-title">Leaderboard</span></a>
+                </li>
                 </ul>
 
                 @if(auth()->user()->roles->first()->name == config('constant.role.admin'))

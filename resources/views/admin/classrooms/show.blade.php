@@ -48,10 +48,10 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Subjects </label>
-                                @foreach ($record->subjects as $subject )
+                                {{-- @foreach ($record->subjects as $subject ) --}}
 
-                                <input type="text" class="form-control border-primary" value ={{$subject->title}} readonly>
-                                @endforeach
+                                <input type="text" class="form-control border-primary" value={{ count($record->subjects()->get()) > 0 ? implode( ",", $record->subjects()->get()->pluck('title')->toArray()) : ""}} readonly>
+                                {{-- @endforeach --}}
                             </div>
 
                         </div>
