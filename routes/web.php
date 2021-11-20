@@ -68,6 +68,8 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('role-dropdown-list', 'RoleController@getRole')->name('role.get-role');
 
         Route::get('leaderboard','LeaderboardController@index')->name('leaderboard');
+        Route::get('leaderboard/{id}','LeaderboardController@show')->name('leaderboard.show');
+        Route::POST('leaderboard-list','LeaderboardController@getList')->name('leaderboard.getList');
 
     });
 

@@ -100,6 +100,7 @@
                                 <select name="status" id="status" class="form-control form-control-sm" required>
                                     <option value="1" {{$record->active == 1 ? 'selected' : ""}}>Active</option>
                                     <option value="0" {{$record->active == 2 ? 'selected' : ""}}>In-Active</option>
+                                    <option value="3" {{$record->active == 3 ? 'selected' : ""}}>Completed</option>
                                 </select>
                             </div>
                             @if($errors->first('status'))

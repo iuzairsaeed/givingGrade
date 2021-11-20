@@ -15,4 +15,9 @@ class Charity extends Model
     {
         return $this->belongsTo(Classroom::class,'class_id');
     }
+
+    public function goal()
+    {
+        return $this->HasOne(Goal::class);
+    }
 }

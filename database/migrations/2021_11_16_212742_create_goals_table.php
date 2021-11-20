@@ -25,7 +25,7 @@ class CreateGoalsTable extends Migration
             $table->timestamp('starting_date');
             $table->timestamp('ending_date');
             $table->boolean('active');
-            $table->decimal('student_count');
+            $table->integer('student_count');
             $table->timestamps();
             $table->softDeletes();
         });
