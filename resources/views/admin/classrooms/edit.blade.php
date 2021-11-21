@@ -55,6 +55,7 @@
                             <div class="form-group">
                                 <label class="label-control">Select Teacher</label>
                                 <select name="teacher" id="user" value="{{old('user')}}" class="form-control border-primary" >
+                                    <option value="{{$record->teacher->id}}" selected>{{$record->teacher->name}}</option>
                                 </select>
                             </div>
                             @if($errors->first('teacher'))
@@ -68,6 +69,10 @@
                             <div class="form-group">
                                 <label class="label-control">Select Subjects</label>
                                 <select name="subjects[]" id="subjects" value="{{old('user')}}" class="form-control border-primary" multiple>
+
+                                    @foreach($record->subjects as $subject)
+                                        <option value="{{$subject->id}}" selected>{{$subject->title}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             @if($errors->first('subjects'))

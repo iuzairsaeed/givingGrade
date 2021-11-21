@@ -18,7 +18,7 @@ class CharityRepository implements RepositoryInterface
     // Get all instances of model
     public function all(array $with = [])
     {
-        return $this->model->with($with)->get();
+        return $this->model->with($with)->paginate(10);
     }
 
     // create a new record in the database

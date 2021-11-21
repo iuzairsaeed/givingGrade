@@ -54,8 +54,16 @@
                    @endif
 
                    <li class="nav-item">
-                    <a href="{{route('leaderboard')}}"><span data-i18n="" class="menu-title">Leaderboard</span></a>
-                </li>
+                        <a href="{{route('leaderboard')}}"><span data-i18n="" class="menu-title">Leaderboard</span></a>
+                    </li>
+                    @if(auth()->user()->roles->first()->name == config('constant.role.private'))
+                        <li class="nav-item">
+                            <a href="{{route('leaderboard.donate')}}"><span data-i18n="" class="menu-title">Charities</span></a>
+                        </li>
+                    @endif
+                    <li class="nav-item">
+                        <a href="{{route('donations.index')}}"><span data-i18n="" class="menu-title">Donations</span></a>
+                    </li>
                 </ul>
 
                 @if(auth()->user()->roles->first()->name == config('constant.role.admin'))

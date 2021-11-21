@@ -25,7 +25,7 @@ class ProfileController extends Controller
     }
     public function showTeacherProfileForm()
     {
-        $user = $this->model->show(auth()->user()->id,['subjects:id']);
+        $user = $this->model->show(auth()->user()->id,['subjects:id,title']);
         return view('auth.teacher_profile', compact('user'));
     }
 

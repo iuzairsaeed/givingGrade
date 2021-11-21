@@ -48,17 +48,6 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="label-control" for="vendor_no">Target </label>
-                                <input type="number" id="currentTarget" class="form-control border-primary @error('donations') is-invalid @enderror" name="donations" placeholder="Enter Donations Received">
-                            </div>
-                            @if($errors->first('donations'))
-                                <span class="invalid-feedback d-block" role="alert">
-                                    <strong>{{ $errors->first('donations') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
                                 <label class="label-control" for="vendor_no">No Of Student </label>
                                 <input type="number" id="student" class="form-control border-primary @error('student') is-invalid @enderror" name="student" placeholder="Enter No of Student">
                             </div>

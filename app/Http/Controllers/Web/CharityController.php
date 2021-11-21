@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CharityRequest;
 use App\Http\Services\RouterService;
-use App\Models\Charity;
+use App\Models\{Charity,Donation};
 use App\Repositories\CharityRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -160,6 +160,24 @@ class CharityController extends Controller
 
         return \Response::json($formatted_depts);
     }
+
+    public function donateCharities(Request $request)
+    {
+        $records = $this->model->all(['teacher','classroom','goal']);
+        return view('admin.sponsor_charity.index',compact('records'));
+    }
+
+    public function donateCharity($id,Request $request)
+    {
+        $validatedData = $request->validate([
+            'donation' => 'required|lte:target',
+        ]);
+        extract($validatedData);
+        $record = $this->model->show($id,['goal']);
+        Donation::create(['user_id' => auth()->user()->id , 'charity_id' => $id,'amount' => $donation]);
+        return response($record , 200);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

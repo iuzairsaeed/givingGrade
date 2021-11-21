@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class GoalRepository implements RepositoryInterface
+class DonationRepository implements RepositoryInterface
 {
     // model property on class instances
     protected $model;
@@ -31,6 +31,7 @@ class GoalRepository implements RepositoryInterface
         $record->title = $title;
         $record->description = $description;
         $record->actual_target = $target;
+        $record->current_target = $donations;
         $record->starting_date = $startDate;
         $record->ending_date = $endDate;
         $record->student_count = $student;
@@ -64,6 +65,7 @@ class GoalRepository implements RepositoryInterface
         $model->title = $title;
         $model->description = $description;
         $model->actual_target = $target;
+        $model->current_target = $donations;
         $model->starting_date = $startDate;
         $model->ending_date = $endDate;
         $model->active = $status;
@@ -138,8 +140,12 @@ class GoalRepository implements RepositoryInterface
         $dir = optional($order)[0]['dir'] ?? false;
         $from = $request->date_from;
         $to = $request->date_to;
-
-        $records = $this->model->where('user_id',auth()->user()->id)->with($with)->withCount($withCount);
+        $records = collect();
+        if(auth()->user()->roles->first()->name == config('constant.role.private')) {
+            $records = $this->model->with('charity','sponsor')->where('user_id',auth()->user()->id)->withCount($withCount);
+        }else {
+            $records = $this->model->with('charity','sponsor')->withCount($withCount);
+        }
 
         if($whereChecks){
             foreach($whereChecks as $key => $check){
@@ -147,23 +153,23 @@ class GoalRepository implements RepositoryInterface
             }
         }
 
-        $recordsTotal = $records->where('user_id',auth()->user()->id)->count();
+        $recordsTotal = $records->count();
 
         if($from){
-            $records->where('user_id',auth()->user()->id)->whereDate('created_at' ,'>=', $from);
+            $records->whereDate('created_at' ,'>=', $from);
         }
         if($to){
-            $records->where('user_id',auth()->user()->id)->whereDate('created_at' ,'<=', $to);
+            $records->whereDate('created_at' ,'<=', $to);
         }
 
         if($search){
-            $records->where('user_id',auth()->user()->id)->where(function($query) use ($searchableCols, $search){
+            $records->where(function($query) use ($searchableCols, $search){
                 foreach($searchableCols as $col){
                     $query->orWhere($col, 'like' , "%$search%");
                 }
             });
         }
-        $recordsFiltered = $records->where('user_id',auth()->user()->id)->count();
+        $recordsFiltered = $records->count();
 
         if($dir){
             if(in_array($sort, $orderableCols)){
@@ -176,10 +182,8 @@ class GoalRepository implements RepositoryInterface
             $records->latest();
         }
         $records = $records->limit($length)->offset($start)->get();
-
         $message = 'Success';
         $response = 200;
-
         return [
             'message' => $message,
             'response' => $response,

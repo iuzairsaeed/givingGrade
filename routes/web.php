@@ -21,6 +21,8 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('charities/{classroom}/destroy', 'CharityController@destroy')->name('charities.delete');
         Route::post('charities/list', 'CharityController@getList')->name('charities.getList');
         Route::get('charities-dropdown-list', 'CharityController@getCharity')->name('charities.get-charity');
+        Route::get('charities-donate','CharityController@donateCharities')->name('leaderboard.donate');
+        Route::POST('charity/{id}/donate','CharityController@donateCharity')->name('leaderboard.donate.charity');
 
         Route::resource('/subjects','SubjectController')->except('destroy');
         Route::post('subjects/list', 'SubjectController@getList')->name('subjects.getList');
@@ -40,8 +42,9 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('classrooms-dropdown-list', 'ClassroomController@getClassroom')->name('classrooms.get-classroom');
         Route::get('classrooms-teacher', 'ClassroomController@teacherClassroom')->name('classrooms.teacher.index');
 
-        Route::resource('users','UserController');
+        Route::resource('users','UserController')->except('destroy');
         Route::get('usersList', 'UserController@getList')->name('users.getList');
+        Route::get('users/{id}/delete', 'UserController@destroy')->name('users.delete');
 
         Route::get('users-dropdown-list', 'UserController@getUser')->name('users.get-user');
         Route::get('teachers-dropdown-list', 'UserController@getTeacher')->name('users.get-teacher');
@@ -70,6 +73,12 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('leaderboard','LeaderboardController@index')->name('leaderboard');
         Route::get('leaderboard/{id}','LeaderboardController@show')->name('leaderboard.show');
         Route::POST('leaderboard-list','LeaderboardController@getList')->name('leaderboard.getList');
+
+
+        Route::get('donation','DonationController@index')->name('donations.index');
+        Route::post('donation-list','DonationController@getList')->name('donations.getList');
+
+
 
     });
 

@@ -67,6 +67,7 @@
                             <div class="form-group">
                                 <label class="label-control">Select Teacher</label>
                                 <select name="teacher" id="user" value="{{old('user')}}" class="form-control border-primary" >
+                                    <option value="{{$record->teacher->id}}" selected>{{$record->teacher->name}}</option>
                                 </select>
                             </div>
                             @if($errors->first('teacher'))
@@ -80,6 +81,8 @@
                             <div class="form-group">
                                 <label class="label-control">Select Class</label>
                                 <select name="class" id="class" value="{{old('class')}}" class="form-control border-primary">
+                                    <option value="{{$record->classroom->id}}" selected>{{$record->classroom->title}}</option>
+
                                 </select>
                             </div>
                             @if($errors->first('class'))

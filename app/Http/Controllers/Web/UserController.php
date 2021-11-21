@@ -21,7 +21,7 @@ class UserController extends Controller
         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','show','getList']]);
         $this->middleware('permission:user-create', ['only' => ['create','store']]);
         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        // $this->middleware('permission:user-delete', ['only' => ['destroy']]);
         $this->model = new UserRepository($model);
         $this->router = 'users.index';
         $this->routerService = new RouterService();
@@ -190,10 +190,11 @@ class UserController extends Controller
      * @param  \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        // $this->model->delete($user);
-
-        // return redirect('users')->with('success', 'User deleted successfully');
+        $record = $this->model->show($id);
+        $this->model->delete($record);
+        auth()->logout();
+        return redirect('login');
     }
 }

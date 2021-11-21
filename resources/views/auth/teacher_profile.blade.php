@@ -67,11 +67,29 @@
                                             <input id="grade" name="grade" class="form-control border-primary" type="text" value="{{old('grade', $user->grade_level)}}">
                                         </div>
                                         @if($errors->first('grade'))
-                                        <span class="invalid-feedback d-block" role="alert">
-                                            <strong>{{ $errors->first('grade') }}</strong>
-                                        </span>
-                                    @endif
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $errors->first('grade') }}</strong>
+                                            </span>
+                                        @endif
                                     </div>
+
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="label-control">Select Subjects</label>
+                                            <select name="subjects[]" id="subjects" value="{{old('user')}}" class="form-control border-primary" multiple>
+
+                                                @foreach($user->subjects as $subject)
+                                                    <option value="{{$subject->id}}" selected>{{$subject->title}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @if($errors->first('subjects'))
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $errors->first('subjects') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">No Of Students</label>
@@ -84,18 +102,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label class="label-control">Select Subjects</label>
-                                            <select name="subjects[]" id="user" value="{{old('user')}}" class="form-control border-primary" multiple>
-                                            </select>
-                                        </div>
-                                        @if($errors->first('subjects'))
-                                            <span class="invalid-feedback d-block" role="alert">
-                                                <strong>{{ $errors->first('subjects') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
+
                                     <div class="col-md-6" id="userAvatar"   style="display: none">
                                         <div class="form-group">
                                             <label class="label-control">Avatar</label>
@@ -125,7 +132,9 @@
                                         <div class="form-actions left">
                                             @if(auth()->user()->roles->first()->name !== config('constant.role.admin'))
                                                 <button type="button" class="btn btn-danger mr-1">
-                                                    <i class="icon-trash"></i> Delete User
+                                                    <a href="{{route('users.delete',$user->id)}}">
+                                                        <i class="icon-trash"></i> Delete User
+                                                    </a>
                                                 </button>
                                             @endif
                                             <button type="submit" id="submit" class="btn btn-raised btn-success">
@@ -150,15 +159,7 @@
 @endsection
 @section('afterScript')
 <script>
-    let record = JSON.parse(`{!! $user !!}`)
-    let subjectIds = [];
-    $.map( record.subjects, function( val, i ) {
-        subjectIds.push(val.id);
-    });
-    console.log(subjectIds)
-
-
-    $('#user').select2({
+    $('#subjects').select2({
         placeholder: "Search Subjects",
         allowClear: true,
         ajax: {
@@ -179,8 +180,6 @@
         }
 
     });
-    $('#user').val(subjectIds);
-
     $('#removeImage').click(function(){
         $('#imageRemove').val(1);
         $('#imageShow').remove();

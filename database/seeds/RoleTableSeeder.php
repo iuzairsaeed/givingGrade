@@ -39,6 +39,7 @@ class RoleTableSeeder extends Seeder
                 'goal-create',
                 'goal-edit',
                 'goal-delete',
+                'user-delete',
                 'classroom-getList',
                 'classroom-list'
             ];
