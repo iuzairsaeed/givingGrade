@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Charity extends Model
@@ -19,5 +20,10 @@ class Charity extends Model
     public function goal()
     {
         return $this->HasOne(Goal::class);
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d M, y - h:i A');
     }
 }

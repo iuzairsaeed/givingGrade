@@ -39,7 +39,7 @@ class RegisterRequest extends FormRequest
                 return [
                     'name' => ['bail', 'max:255', 'min:3'],
                     'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->userId],
-                    'password' => ['bail','required', 'string', 'min:6'],
+                    'password' => ['bail','nullable', 'string', 'min:6'],
                     'dob' => ['bail','required', 'date',],
                     'roles' => ['required','exists:roles,id'],
                     'status' => ['required'],

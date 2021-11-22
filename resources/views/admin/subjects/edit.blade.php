@@ -42,7 +42,7 @@
                                 <label class="label-control" for="vendor_no">Status </label>
                                 <select name="status" id="status" class="form-control form-control-sm" required>
                                     <option value="1" {{$record->active == 1 ? 'selected' : ""}}>Active</option>
-                                    <option value="0" {{$record->active == 2 ? 'selected' : ""}}>In-Active</option>
+                                    <option value="0" {{$record->active == 0 ? 'selected' : ""}}>In-Active</option>
                                 </select>
                             </div>
                             @if($errors->first('status'))
@@ -92,6 +92,7 @@
 @endsection
 @section('afterScript')
 <script>
+    $('#status').select2()
     $('#removeImage').click(function(){
         $('#imageRemove').val(1);
         $('#imageShow').remove();

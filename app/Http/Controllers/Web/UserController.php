@@ -141,7 +141,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->model->show($id,['roles:id']);
+        $user = $this->model->show($id,['roles']);
         $roles = Role::pluck('name','name')->all();
         return view('admin.users.edit', compact('user','roles'));
     }
@@ -163,7 +163,10 @@ class UserController extends Controller
             $user = User::find($id);
             $user->name =$name;
             $user->email =$email;
-            $user->password = bcrypt($password);
+            if($password){
+
+                $user->password = bcrypt($password);
+            }
             $user->dob =$dob;
             if($roles == 1) {
                 $user->is_admin = 1;

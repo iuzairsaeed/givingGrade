@@ -37,12 +37,14 @@
                             @endif
                         </div>
 
+
+
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="label-control" for="vendor_no">Status </label>
                                 <select name="status" id="status" class="form-control form-control-sm" required>
                                     <option value="1" {{$record->active == 1 ? 'selected' : ""}}>Active</option>
-                                    <option value="0" {{$record->active == 2 ? 'selected' : ""}}>In-Active</option>
+                                    <option value="0" {{$record->active == 0 ? 'selected' : ""}}>In-Active</option>
                                 </select>
                             </div>
                             @if($errors->first('status'))
@@ -55,7 +57,7 @@
                             <div class="form-group">
                                 <label class="label-control">Select Teacher</label>
                                 <select name="teacher" id="user" value="{{old('user')}}" class="form-control border-primary" >
-                                    <option value="{{$record->teacher->id}}" selected>{{$record->teacher->name}}</option>
+                                    <option value="{{$record->teacher->id ?? " "}}" selected>{{$record->teacher->name ?? ""}}</option>
                                 </select>
                             </div>
                             @if($errors->first('teacher'))
@@ -81,7 +83,6 @@
                                 </span>
                             @endif
                         </div>
-
                         <div class="col-6" id="goalImage" style="display: none">
                             <div class="form-group">
                                 <label class="label-control">Image</label>
@@ -105,6 +106,7 @@
                     </div>
 
 
+
                     <div class="form-actions right">
                         <a href="{{route('classrooms.index')}}">
                             <button type="button" class="btn btn-danger mr-1">
@@ -124,6 +126,7 @@
 @endsection
 @section('afterScript')
 <script>
+     $("#status").select2();
     $('#user').select2({
         placeholder: "Search Teacher",
         allowClear: true,

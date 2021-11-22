@@ -140,7 +140,7 @@
             cache: true
         }
     });
-
+    $('#status').select2();
     $('#class').select2({
         placeholder: "Search Class",
         allowClear: true,

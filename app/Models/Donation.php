@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Donation extends Model
@@ -16,5 +17,10 @@ class Donation extends Model
     public function sponsor()
     {
         return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d M, y - h:i A');
     }
 }

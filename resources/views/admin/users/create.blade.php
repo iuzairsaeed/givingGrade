@@ -135,5 +135,7 @@
             cache: true
         }
     });
+
+    $("#status").select2();
 </script>
 @endsection

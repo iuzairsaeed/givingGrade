@@ -67,6 +67,7 @@
                                         <div class="form-group">
                                             <label class="label-control">Select Roles</label>
                                             <select name="roles" id="roles" value="{{old('roles')}}" class="form-control border-primary">
+                                                <option value="{{$user->roles->first()->id}}" selected>{{$user->roles->first()->name}}</option>
                                             </select>
                                         </div>
                                         @if($errors->first('roles'))
@@ -80,8 +81,8 @@
                                         <div class="form-group">
                                             <label class="label-control" for="vendor_no">Status </label>
                                             <select name="status" id="status" class="form-control form-control-sm" required>
-                                                <option value="1"{{$user->is_active =1  ? 'selected' : ''}}>Active</option>
-                                                <option value="0" {{$user->is_active =0  ? 'selected' : ''}}>In-Active</option>
+                                                <option value="1"{{$user->is_active == 1  ? 'selected' : ''}}>Active</option>
+                                                <option value="0" {{$user->is_active == 0  ? 'selected' : ''}}>In-Active</option>
                                             </select>
                                         </div>
                                         @if($errors->first('status'))
@@ -138,5 +139,7 @@
             cache: true
         }
     });
+
+    $("#status").select2();
 </script>
 @endsection

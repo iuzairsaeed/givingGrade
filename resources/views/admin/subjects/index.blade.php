@@ -50,7 +50,7 @@
             { data: 'description' },
             { data: 'active', render:function (data, type, full, meta) {
                                 return full.active   ? `<i class="fa fa-dot-circle-o success font-medium-1 mr-1"></i> Active`
-                                                        : `<i class="fa fa-dot-circle-o danger font-medium-1 mr-1"></i> InActive`;  }
+                                                        : `<i class="fa fa-dot-circle-o danger font-medium-1 mr-1"></i> In Active`;  }
             },
             { data: 'created_at' },
             { data: 'actions', render:function (data, type, full, meta) {

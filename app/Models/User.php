@@ -11,6 +11,7 @@ use App\Models\Constant;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\ModelStatus\HasStatuses;
 use App\Notifications\VerifyEmail;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -96,5 +97,10 @@ class User extends Authenticatable
     public function classroom()
     {
         return $this->HasOne(Classroom::class,'user_id');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d M, y - h:i A');
     }
 }

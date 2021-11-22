@@ -83,3 +83,9 @@
 </div>
 
 @endsection
+@push('afterScript')
+<script>
+    $('#status').select2()
+</script>
+
+@endpush
