@@ -13,8 +13,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         @foreach ($records as $record )
-                <div class="col-md-3 col-xs-6">
+            <div class="col-md-3 col-xs-6">
                 <div class="card w-100">
                     <img src="{{ asset("storage/{$record->image}") }}" class="card-img-top my-3" style="object-fit:cover;" alt="..." height="300">
                     <div class="card-body">
@@ -39,6 +41,11 @@
                 </div>
             </div>
         @endforeach
+        <div class=" col-md-12 py-4 text-center justify-content-center" style="margin:auto; display:flex">
+            {{-- <nav aria-label="..."> --}}
+                {{ $records->links() }}
+            {{-- </nav> --}}
+        </div>
         <div class="modal" id="donateModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -71,10 +78,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="modal text-left" id="editPerm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3">
-
-        </div> --}}
-
     </div>
 </section>
 @endsection
