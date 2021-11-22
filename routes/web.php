@@ -70,9 +70,9 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('role-list', 'RoleController@getList')->name('role.get-list');
         Route::get('role-dropdown-list', 'RoleController@getRole')->name('role.get-role');
 
-        Route::get('leaderboard','LeaderboardController@index')->name('leaderboard');
-        Route::get('leaderboard/{id}','LeaderboardController@show')->name('leaderboard.show');
-        Route::POST('leaderboard-list','LeaderboardController@getList')->name('leaderboard.getList');
+        Route::get('leaderboard','LeaderBoardController@index')->name('leaderboard');
+        Route::get('leaderboard/{id}','LeaderBoardController@show')->name('leaderboard.show');
+        Route::POST('leaderboard-list','LeaderBoardController@getList')->name('leaderboard.getList');
 
 
         Route::get('donation','DonationController@index')->name('donations.index');
