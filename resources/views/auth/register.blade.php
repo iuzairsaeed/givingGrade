@@ -49,13 +49,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label class="label-control" for="vendor_no">Display Name </label>
                                         <div class="input-wrap pl-3 pr-3 pt-1 pb-1 w-100">
                                             <i class="icon-user"></i>
                                             <input type="text" id="phone" class="form-control pl-2 pr-2 border-0 bg-transparent outline-none" name="username" placeholder="Display Name" value="{{old('username')}}" required>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <label class="label-control" for="vendor_no">Date Of Birth </label>
@@ -181,7 +181,7 @@
                                 </div>
 
                                 <label class="checkbox-style">Accept Term and Conditions
-                                    <input type="checkbox" checked="checked" name="terms"> <span class="checkmark"></span>
+                                    <input type="checkbox" checked="checked" name="terms" value="1"> <span class="checkmark"></span>
                                 </label>
                                 <div class="text-center mt-4">
                                     <button class="bg-green text-white pt-2 pb-2 border-0 outline-none  w-100 btn-login" style="max-width: 366px;">Sign Up</button>

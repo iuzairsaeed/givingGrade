@@ -57,7 +57,6 @@ class RegisterController extends Controller
         $validators = [
             'teacher' => Validator::make($data, [
                 'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
-                'username' => ['bail', 'alpha_spaces', 'max:255', 'min:3', 'unique:users'],
                 'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['bail','required', 'string', 'min:6', 'confirmed'],
                 'dob' => ['bail','required', 'date',],
@@ -116,15 +115,15 @@ class RegisterController extends Controller
         event(new Registered($teacher = $this->create($request->all())));
         $role = Role::where('name', 'teacher')->first();
         $teacher->assignRole([$role->id]);
-        return redirect("/users/$teacher->id");
+        return redirect("/dashboard");
     }
 
     public function sponsor(Request $request)
     {
         $this->validator($request->all(),'private')->validate();
         event(new Registered($sponsor = $this->create($request->all())));
-        $role = Role::where('name', 'private')->first();
+        $role = Role::where('name', 'sponsor')->first();
         $sponsor->assignRole([$role->id]);
-        return redirect("/users/$sponsor->id");
+        return redirect("/dashboard");
     }
 }
